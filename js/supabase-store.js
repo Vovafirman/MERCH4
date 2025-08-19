@@ -1,4 +1,3 @@
-<script>
 const Store = (() => {
   const BUCKET = 'images';
   const PLACEHOLDER = 'placeholder.jpg';
@@ -71,6 +70,5 @@ const Store = (() => {
   return { currentUser, login, logout, uploadImages, saveProduct, listProducts, getProduct, subscribeProducts, PLACEHOLDER };
 })();
 window.Store = Store;
-</script>
 
 
