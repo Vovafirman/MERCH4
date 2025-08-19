@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicoin/fovicoin.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="favicoin/fovicoin.svg">
+    <title>Центр кино™ - О нас</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Local IBM Plex Mono font faces */
+        @font-face { font-family: 'IBM Plex Mono'; src: url('шрифт/IBMPlexMono-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; font-display: swap; }
+
+        /* Force IBM Plex Mono everywhere */
+        html, body, input, button, select, textarea, a, span, div, p, h1, h2, h3, h4, h5, h6 {
+            font-family: 'IBM Plex Mono', monospace !important;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: #fff;
+            color: #000;
+            overflow-x: hidden;
+        }
+
+        /* Font imports */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: #fff;
+        }
+
+        .nav-links {
+            position: relative;
+        }
+
+        .burger-menu {
+            width: 20px;
+            height: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .burger-menu:hover {
+            opacity: 0.7;
+        }
+
+        .burger-line {
+            width: 100%;
+            height: 1px;
+            background: #000;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #fff;
+            padding: 100px 40px 40px 40px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        
+        .menu-close-btn {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #000;
+            padding: 10px;
+            transition: opacity 0.2s;
+        }
+        
+        .menu-close-btn:hover {
+            opacity: 0.7;
+        }
+
+        .menu-logo {
+            width: 120px;
+            height: 120px;
+            margin: 40px 0 60px 0;
+            flex-shrink: 0;
+        }
+
+        .menu-logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-link {
+            display: block;
+            color: #000;
+            text-decoration: underline;
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 20px 0;
+            transition: opacity 0.2s;
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        .dropdown-link:hover {
+            opacity: 0.7;
+        }
+
+        .logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #000;
+        }
+
+        .logo-tm {
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .icon:hover {
+            opacity: 0.7;
+        }
+
+        .icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        /* Left Panel - Text Content */
+        .text-panel {
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #fff;
+        }
+
+        .page-number {
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            color: #000;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.3;
+            margin-bottom: 40px;
+            color: #000;
+        }
+
+        .page-description {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #fff;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        .page-steps {
+            margin-bottom: 40px;
+        }
+
+        .step {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .step::before {
+            content: '_';
+            position: absolute;
+            left: 0;
+            color: #000;
+        }
+
+        .page-disclaimer {
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .cta-button {
+            color: #000;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding-bottom: 5px;
+            transition: opacity 0.2s;
+            display: inline-block;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #000;
+            transform: scaleX(0.85);
+            transform-origin: left;
+        }
+
+        .cta-button:hover {
+            opacity: 0.7;
+        }
+
+        .back-button {
+            color: #000;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding-bottom: 5px;
+            transition: opacity 0.2s;
+            display: inline-block;
+            margin-top: 15px;
+            position: relative;
+        }
+
+        .back-button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #000;
+            transform: scaleX(0.25);
+            transform-origin: left;
+        }
+
+        .back-button:hover {
+            opacity: 0.7;
+        }
+
+        /* Right Panel - Image */
+        .image-panel {
+            position: relative;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 100%;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .image-placeholder {
+            font-size: 60px;
+            font-weight: 100;
+            color: white;
+        }
+
+        /* Additional Content for Scrolling */
+        .additional-content {
+            padding: 40px 40px;
+            background: #fff;
+            color: #000;
+            margin-bottom: 40px;
+        }
+
+        .content-section {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+            align-items: start;
+        }
+
+        .product-card {
+            background: #fff;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid transparent;
+            height: 700px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            min-height: 700px;
+            max-height: 700px;
+        }
+
+        .product-card:hover {
+            border-color: #000;
+        }
+
+        .product-image-small {
+            width: 100%;
+            height: 500px;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
+            min-height: 500px;
+            max-height: 500px;
+            overflow: hidden;
+        }
+
+        .product-number-small {
+            display: none;
+        }
+
+        .product-info {
+            padding: 0 10px 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            min-height: 200px;
+            max-height: 200px;
+            overflow: hidden;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 300;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .product-description {
+            font-size: 12px;
+            color: #666;
+            font-weight: 300;
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            white-space: normal;
+        }
+
+        .product-price {
+            font-size: 16px;
+            color: #000;
+            font-weight: 300;
+        }
+
+        .product-price-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 300;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #f44336;
+            color: #fff;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 10;
+        }
+
+        .product-price {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .discounted-price {
+            color: #f44336;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .product-card:hover .product-price-overlay {
+            opacity: 1;
+        }
+
+        .product-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .product-card:hover .product-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: transform 0.2s;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+}
+
+        .favorite-btn.active {
+            color: white;
+        }
+
+        /* Social Links Section */
+        .social-section {
+            padding: 40px 40px;
+            background: #fff;
+            margin-top: 40px;
+        }
+
+        .social-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+
+        .social-card {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .social-card:hover {
+            transform: scale(1.02);
+        }
+
+        .social-image {
+            width: 100%;
+            height: 100%;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .social-image .image-placeholder {
+            font-size: 60px;
+            font-weight: 100;
+            color: white;
+        }
+
+        .social-overlay {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            color: #000;
+            z-index: 10;
+        }
+
+        .social-title {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .social-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #fff;
+            padding-bottom: 2px;
+            transition: opacity 0.2s;
+        }
+
+        .social-link:hover {
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .text-panel {
+                padding: 40px 20px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .page-description {
+                font-size: 14px;
+            }
+
+            .step {
+                font-size: 14px;
+            }
+
+            .page-disclaimer {
+                font-size: 12px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .social-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .social-card {
+                height: 300px;
+            }
+
+            .social-overlay {
+                bottom: 20px;
+                left: 20px;
+            }
+
+            .social-title {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .text-panel {
+                padding: 30px 15px;
+            }
+
+            .page-title {
+                font-size: 20px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-links">
+            <div class="burger-menu" id="burgerMenu">
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <button class="menu-close-btn" onclick="closeMenu()">←</button>
+                <div class="menu-logo">
+                    <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 400 400">
+                        <defs>
+                            <style>
+                                .st0 {
+                                    fill: none;
+                                    stroke: #231f20;
+                                    stroke-miterlimit: 10;
+                                    stroke-width: 11px;
+                                }
+                            </style>
+                        </defs>
+                        <polygon class="st0" points="377.37 382.49 21.01 253.6 21.05 150.75 377.37 22.22 377.37 382.49"/>
+                        <polygon class="st0" points="219.63 382.49 20.86 277.13 20.89 126.59 219.63 21.79 219.63 382.49"/>
+                        <polygon class="st0" points="99.83 382.25 20.86 316.99 20.86 87.02 99.83 22.46 99.83 382.25"/>
+                    </svg>
+                </div>
+                <a href="index.html" class="dropdown-link">Главная</a>
+                <a href="catalog.html" class="dropdown-link">Каталог</a>
+                <a href="help.html" class="dropdown-link">Помощь</a>
+                <a href="favorites.html" class="dropdown-link">Избранное</a>
+            </div>
+        </div>
+                 <div class="logo">
+             <a href="index.html" style="color: inherit; text-decoration: none;">Центр кино™</a>
+         </div>
+        <div class="header-right">
+                            <div class="header-icons">
+                    <div class="icon" onclick="window.location.href='catalog.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M14 14L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='favorites.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M10 17.5L8.5 16.1C4.5 12.3 2 9.7 2 6.5C2 3.9 4.1 1.8 6.7 1.8C7.8 1.8 8.9 2.2 9.7 3C10.5 2.2 11.6 1.8 12.7 1.8C15.3 1.8 17.4 3.9 17.4 6.5C17.4 9.7 14.9 12.3 10.9 16.1L10 17.5Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='cart.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <rect x="3" y="4" width="14" height="12" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <path d="M3 4L5 1H15L17 4" stroke="currentColor" stroke-width="1.5"/>
+                            <circle cx="7" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <circle cx="13" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='account.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="6" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <path d="M3 17C3 13.1 6.1 10 10 10C13.9 10 17 13.1 17 17" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Left Panel - Text Content -->
+        <div class="text-panel">
+            <div class="page-number">02 О НАС</div>
+            
+            <h1 class="page-title">ЦЕНТР КИНО | КАЧЕСТВЕННЫЕ ТОВАРЫ</h1>
+            
+            <div class="page-description">
+                Центр кино предлагает эксклюзивные товары для ценителей качественной одежды и аксессуаров. 
+                Наша коллекция создана для тех, кто ценит стиль, комфорт и индивидуальность.
+            </div>
+
+            <div class="page-steps">
+                <div class="step">Зарегистрируйтесь в личном кабинете Центр кино или войдите в существующий аккаунт</div>
+                <div class="step">Ознакомьтесь с нашей коллекцией через специальную форму в личном кабинете</div>
+                <div class="step">Выберите понравившиеся товары и добавьте их в корзину</div>
+            </div>
+
+            <div class="page-disclaimer">
+                Покупки в Центр кино ограничены 1 заказом на пользователя и 1 товаром в заказе. 
+                Доступ к товарам не гарантирует их покупку. Ограниченное количество товаров.
+            </div>
+
+            <div class="page-disclaimer">
+                Центр кино оставляет за собой право закрыть регистрацию в случае подозрительного поведения 
+                или других обстоятельств, которые могут нанести ущерб мероприятию.
+            </div>
+
+            <!-- Call to Action -->
+            <a href="account.html" class="cta-button">РЕГИСТРАЦИЯ ИЛИ ВХОД</a>
+            
+            <!-- Back Button -->
+            <a href="index.html" class="back-button">НАЗАД</a>
+        </div>
+
+        <!-- Right Panel - Image -->
+        <div class="image-panel">
+            <div class="about-image" id="about-hero-image">
+                <div class="image-placeholder">10</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Content for Scrolling -->
+    <section class="additional-content">
+        <div class="content-section" data-section="new-arrivals">
+            <h2 class="section-title">Новые поступления</h2>
+            <div class="products-grid">
+                <div class="product-card" onclick="window.location.href='product.html?id=2'">
+                    <div class="product-image-small">
+                        <div class="product-price-overlay">2,250 ₽</div>
+                        <div class="product-actions">
+                            <button class="action-btn favorite-btn" onclick="event.stopPropagation(); addToFavorites(2)">♡</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">4100040 RAW LINEN PLATED-OVD</h3>
+                        <p class="product-description">Jacket with transparent resins and collapsible hood</p>
+                    </div>
+                </div>
+                <div class="product-card" onclick="window.location.href='product.html?id=3'">
+                    <div class="product-image-small">
+                        <div class="product-price-overlay">2,250 ₽</div>
+                        <div class="product-actions">
+                            <button class="action-btn favorite-btn" onclick="event.stopPropagation(); addToFavorites(3)">♡</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">4100024 LIGHT COMPACT TOUCH POLY-TC</h3>
+                        <p class="product-description">Short trench coat with matt appearance and anti-drop</p>
+                    </div>
+                </div>
+                <div class="product-card" onclick="window.location.href='product.html?id=4'">
+                    <div class="product-image-small">
+                        <div class="product-price-overlay">2,250 ₽</div>
+                        <div class="product-actions">
+                            <button class="action-btn favorite-btn" onclick="event.stopPropagation(); addToFavorites(4)">♡</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">4100096 ORGANIC LOOK NYLON PANAMA-TC</h3>
+                        <p class="product-description">Hooded jacket with Panama weave and anti-drop</p>
+                    </div>
+                </div>
+                <div class="product-card" onclick="window.location.href='product.html?id=5'">
+                    <div class="product-image-small">
+                        <div class="product-price-overlay">2,250 ₽</div>
+                        <div class="product-actions">
+                            <button class="action-btn favorite-btn" onclick="event.stopPropagation(); addToFavorites(5)">♡</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">2100025 COMBED ORGANIC COTTON JERSEY</h3>
+                        <p class="product-description">T-shirt with organic cotton and stretch fit</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Links Section -->
+    <section class="social-section">
+        <div class="social-grid">
+            <div class="social-card">
+                <div class="social-image">
+                    <div class="image-placeholder">15</div>
+                </div>
+                <div class="social-overlay">
+                    <h3 class="social-title">TELEGRAM</h3>
+                    <a href="#" class="social-link">ПОДРОБНЕЕ</a>
+                </div>
+            </div>
+            <div class="social-card">
+                <div class="social-image">
+                    <div class="image-placeholder">16</div>
+                </div>
+                <div class="social-overlay">
+                    <h3 class="social-title">VK MARKET</h3>
+                    <a href="#" class="social-link">ПОДРОБНЕЕ</a>
+                </div>
+            </div>
+            <div class="social-card">
+                <div class="social-image">
+                    <div class="image-placeholder">17</div>
+                </div>
+                <div class="social-overlay">
+                    <h3 class="social-title">КИНОШЁП</h3>
+                    <a href="#" class="social-link">ПОДРОБНЕЕ</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Burger menu functionality
+            const burgerMenu = document.getElementById('burgerMenu');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+
+            burgerMenu.addEventListener('click', function() {
+                dropdownMenu.classList.toggle('active');
+            });
+
+            // Close menu function
+            window.closeMenu = function() {
+                dropdownMenu.classList.remove('active');
+            };
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!burgerMenu.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.classList.remove('active');
+                }
+            });
+
+            // Add to favorites function
+            window.addToFavorites = function(productId) {
+                const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+                const existingItem = favorites.find(item => item.id === productId);
+                const favoriteBtn = event.target;
+                
+                if (!existingItem) {
+                    // Add to favorites
+                    const productData = {
+                        id: productId,
+                        name: getProductName(productId),
+                        category: 'jackets',
+                        price: 2250,
+                        sizes: ['S', 'M', 'L', 'XL']
+                    };
+                    favorites.push(productData);
+                    localStorage.setItem('favorites', JSON.stringify(favorites));
+                    favoriteBtn.classList.add('active');
+                    favoriteBtn.textContent = '♡';
+                } else {
+                    // Remove from favorites
+                    const updatedFavorites = favorites.filter(item => item.id !== productId);
+                    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+                    favoriteBtn.classList.remove('active');
+                    favoriteBtn.textContent = '♡';
+                }
+            };
+
+            // Get product name by ID
+            function getProductName(productId) {
+                const productNames = {
+                    11: '4100040 RAW LINEN PLATED-OVD',
+                    12: '4100024 LIGHT COMPACT TOUCH POLY-TC',
+                    13: '4100096 ORGANIC LOOK NYLON PANAMA-TC',
+                    14: '2100025 COMBED ORGANIC COTTON JERSEY'
+                };
+                return productNames[productId] || 'Product';
+            }
+
+            // Check favorites on page load
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            const favoriteBtns = document.querySelectorAll('.favorite-btn');
+            
+            favoriteBtns.forEach(btn => {
+                const productId = parseInt(btn.getAttribute('onclick').match(/\d+/)[0]);
+                const isInFavorites = favorites.find(item => item.id === productId);
+                
+                if (isInFavorites) {
+                    btn.classList.add('active');
+                    btn.textContent = '♡';
+                }
+            });
+
+            // Загружаем данные страницы "О нас" из localStorage (как в Banner 4)
+            const content = JSON.parse(localStorage.getItem('pageContent') || '{}');
+            const aboutContent = content.about || {};
+            
+            console.log('🔍 Проверяем localStorage pageContent:', content);
+            console.log('🔍 Данные страницы "О нас":', aboutContent);
+            
+            // Проверяем данные hero секции
+            if (aboutContent.hero) {
+                console.log('✅ Загружаем данные страницы "О нас" hero из localStorage:', aboutContent.hero);
+                updateAbout(aboutContent.hero);
+                
+                // Принудительно обновляем изображения
+                console.log('🔄 Принудительное обновление изображений страницы "О нас"...');
+                setTimeout(() => {
+                    updateAbout(aboutContent.hero);
+                    console.log('✅ Изображения страницы "О нас" обновлены');
+                }, 100);
+            } else {
+                console.log('❌ Данные страницы "О нас" hero не найдены в localStorage');
+            }
+
+            // Загружаем "Новые поступления"
+            updateNewArrivals();
+            
+            // Загружаем переходы
+            updateTransitions();
+            
+            // Автоматическое обновление данных страницы "О нас" каждые 3 секунды
+            setInterval(function() {
+                const content = JSON.parse(localStorage.getItem('pageContent') || '{}');
+                const aboutContent = content.about || {};
+                if (aboutContent.hero) {
+                    console.log('🔄 Обновляем данные страницы "О нас" из localStorage:', aboutContent.hero);
+                    updateAbout(aboutContent.hero);
+                }
+                
+                // Обновляем "Новые поступления"
+                updateNewArrivals();
+                
+                // Обновляем переходы
+                updateTransitions();
+            }, 3000);
+        });
+
+        // ФУНКЦИЯ ДЛЯ ОБНОВЛЕНИЯ "НОВЫЕ ПОСТУПЛЕНИЯ"
+        function updateNewArrivals() {
+            console.log('🔄 Обновляем "Новые поступления"');
+            
+            // Загружаем данные из localStorage
+            const pageContent = JSON.parse(localStorage.getItem('pageContent') || '{}');
+            const newArrivals = pageContent.newArrivals || {};
+            console.log('📊 Данные "Новые поступления":', newArrivals);
+            
+            // Получаем все товары из админ панели
+            const productIds = JSON.parse(localStorage.getItem('productIds') || '[]');
+            const allProducts = [];
+            
+            productIds.forEach(id => {
+                const productData = localStorage.getItem(`product_${id}`);
+                if (productData) {
+                    try {
+                        const product = JSON.parse(productData);
+                        allProducts.push(product);
+                    } catch (error) {
+                        console.error(`Ошибка при загрузке товара ${id}:`, error);
+                    }
+                }
+            });
+            
+            console.log('📦 Все товары:', allProducts.length, 'шт.');
+            
+            // Создаем HTML для блока "Новые поступления"
+            let newArrivalsHTML = `
+                <div class="content-section" data-section="new-arrivals">
+                    <h2 class="section-title">Новые поступления</h2>
+                    <div class="products-grid">
+            `;
+            
+            // Добавляем товары
+            for (let i = 1; i <= 4; i++) {
+                const productKey = `product${i}`;
+                const productId = newArrivals[productKey];
+                console.log(`🔍 ${productKey}:`, productId);
+                
+                if (productId) {
+                    const product = allProducts.find(p => p.id === parseInt(productId));
+                    console.log(`🎯 Товар для ${productKey}:`, product);
+                    
+                    if (product) {
+                        // Проверяем наличие изображения
+                        const productImage = product.images && product.images.length > 0 && product.images[0] ? product.images[0] : 'placeholder.jpg';
+                        
+                        // Проверяем скидки для товара
+                        const discounts = JSON.parse(localStorage.getItem('discounts') || '[]');
+                        const activeDiscount = discounts.find(discount => 
+                            discount.productId === product.id.toString() && 
+                            new Date(discount.startDate) <= new Date() && 
+                            new Date(discount.endDate) >= new Date()
+                        );
+                        
+                        let finalPrice = product.price || 0;
+                        let originalPrice = product.price || 0;
+                        let discountBadge = '';
+                        let priceDisplay = `${finalPrice.toLocaleString()} ₽`;
+                        
+                        if (activeDiscount) {
+                            if (activeDiscount.type === 'percentage') {
+                                finalPrice = Math.round(originalPrice * (1 - activeDiscount.value / 100));
+                            } else {
+                                finalPrice = Math.max(0, originalPrice - activeDiscount.value);
+                            }
+                            discountBadge = '<div class="discount-badge">СКИДКА</div>';
+                            priceDisplay = `
+                                <div class="product-price">
+                                    <span class="original-price">${originalPrice.toLocaleString()} ₽</span>
+                                    <span class="discounted-price">${finalPrice.toLocaleString()} ₽</span>
+                                </div>
+                            `;
+                        }
+                        
+                        newArrivalsHTML += `
+                            <div class="product-card" id="new-arrival-${i}" onclick="window.location.href='product.html?id=${product.id}'">
+                                <div class="product-image-small">
+                                    <img src="${productImage}" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 1;">
+                                    ${discountBadge}
+                                    <div class="product-price-overlay">${priceDisplay}</div>
+                                    <div class="product-actions">
+                                        <button class="action-btn favorite-btn" onclick="event.stopPropagation(); addToFavorites(${product.id})">♡</button>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-name">${product.name}</h3>
+                                    <p class="product-description">${product.description}</p>
+                                </div>
+                            </div>
+                        `;
+                        console.log(`✅ Добавлен товар ${i}:`, product.name);
+                    } else {
+                        // Если товар не найден, показываем placeholder
+                        newArrivalsHTML += `
+                            <div class="product-card" id="new-arrival-${i}">
+                                <div class="product-image-small">
+                                    <div class="product-number-small">${i + 1}</div>
+                                    <div class="product-price-overlay">2,250 ₽</div>
+                                    <div class="product-actions">
+                                        <button class="action-btn favorite-btn" onclick="addToFavorites(${i + 1})">♡</button>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-name">Товар ${i + 1}</h3>
+                                    <p class="product-description">Описание товара</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                } else {
+                    // Если нет данных о товаре, показываем placeholder
+                    newArrivalsHTML += `
+                        <div class="product-card" id="new-arrival-${i}">
+                            <div class="product-image-small">
+                                <div class="product-number-small">${i + 1}</div>
+                                <div class="product-price-overlay">2,250 ₽</div>
+                                <div class="product-actions">
+                                    <button class="action-btn favorite-btn" onclick="addToFavorites(${i + 1})">♡</button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">Товар ${i + 1}</h3>
+                                <p class="product-description">Описание товара</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            newArrivalsHTML += `
+                    </div>
+                </div>
+            `;
+            
+            // Обновляем блок на странице "О нас"
+            const aboutNewArrivalsSection = document.querySelector('.content-section[data-section="new-arrivals"]');
+            if (aboutNewArrivalsSection) {
+                aboutNewArrivalsSection.outerHTML = newArrivalsHTML;
+                console.log('✅ Блок "Новые поступления" обновлен на странице "О нас"');
+            } else {
+                console.log('❌ Элемент new-arrivals не найден на странице "О нас"');
+            }
+        }
+
+        // ФУНКЦИЯ ДЛЯ ОБНОВЛЕНИЯ СТРАНИЦЫ "О НАС" ИЗ АДМИН ПАНЕЛИ
+        function updateAbout(aboutData) {
+            console.log('🔄 Обновляем страницу "О нас":', aboutData);
+            
+            // Обновляем изображение
+            const imageElement = document.getElementById('about-hero-image');
+            if (imageElement) {
+                // Очищаем контейнер
+                imageElement.innerHTML = '';
+                
+                if (aboutData && aboutData.image) {
+                    console.log('✅ Загружаем изображение "О нас":', aboutData.image.substring(0, 50) + '...');
+                    const img = document.createElement('img');
+                    img.src = aboutData.image;
+                    img.style.width = '100%';
+                    img.style.height = '100%';
+                    img.style.objectFit = 'cover';
+                    img.style.borderRadius = '8px';
+                    imageElement.appendChild(img);
+                } else {
+                    console.log('❌ Нет изображения для "О нас", показываем placeholder');
+                    // Восстанавливаем placeholder если нет изображения
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'image-placeholder';
+                    placeholder.textContent = '10';
+                    imageElement.appendChild(placeholder);
+                }
+            } else {
+                console.log('❌ Элемент about-hero-image не найден');
+            }
+        }
+
+        // ФУНКЦИЯ ДЛЯ ОБНОВЛЕНИЯ ПЕРЕХОДОВ
+        function updateTransitions() {
+            console.log('🔄 Обновляем переходы');
+            
+            // Загружаем данные из localStorage
+            const pageContent = JSON.parse(localStorage.getItem('pageContent') || '{}');
+            const transitions = pageContent.transitions || {};
+            console.log('📊 Данные переходов:', transitions);
+            
+            // Обновляем каждый блок
+            for (let i = 1; i <= 3; i++) {
+                const blockKey = `block${i}`;
+                const blockData = transitions[blockKey];
+                console.log(`🔍 ${blockKey}:`, blockData);
+                
+                if (blockData) {
+                    // Находим соответствующий блок на странице
+                    const socialCards = document.querySelectorAll('.social-card');
+                    const targetCard = socialCards[i - 1]; // i-1 потому что индексы начинаются с 0
+                    
+                    if (targetCard) {
+                        // Обновляем изображение
+                        const imageContainer = targetCard.querySelector('.social-image');
+                        if (imageContainer && blockData.image) {
+                            console.log(`✅ Обновляем изображение для ${blockKey}:`, blockData.image.substring(0, 50) + '...');
+                            imageContainer.innerHTML = `
+                                <img src="${blockData.image}" alt="${blockData.title || 'Social'}" style="width: 100%; height: 100%; object-fit: cover;">
+                            `;
+                        } else if (imageContainer) {
+                            // Восстанавливаем placeholder если нет изображения
+                            const placeholderNumber = i === 1 ? '15' : i === 2 ? '16' : '17';
+                            imageContainer.innerHTML = `
+                                <div class="image-placeholder">${placeholderNumber}</div>
+                            `;
+                        }
+                        
+                        // Обновляем заголовок
+                        const titleElement = targetCard.querySelector('.social-title');
+                        if (titleElement && blockData.title) {
+                            console.log(`✅ Обновляем заголовок для ${blockKey}:`, blockData.title);
+                            titleElement.textContent = blockData.title;
+                        }
+                        
+                        // Обновляем ссылку
+                        const linkElement = targetCard.querySelector('.social-link');
+                        if (linkElement && blockData.link) {
+                            console.log(`✅ Обновляем ссылку для ${blockKey}:`, blockData.link);
+                            linkElement.href = blockData.link;
+                            // Делаем весь блок кликабельным
+                            targetCard.onclick = function() {
+                                window.open(blockData.link, '_blank');
+                            };
+                        } else if (linkElement) {
+                            // Убираем кликабельность если нет ссылки
+                            targetCard.onclick = null;
+                        }
+                    } else {
+                        console.log(`❌ Блок ${blockKey} не найден на странице`);
+                    }
+                } else {
+                    console.log(`❌ Нет данных для ${blockKey}`);
+                }
+            }
+        }
+
+
+        
+
+    </script>
+    <script src="statistics.js"></script>
+</body>
+</html> 

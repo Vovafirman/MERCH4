@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Центр Кино™ - Онлайн магазин стильной одежды и аксессуаров. Новые поступления, каталог товаров, корзина покупок.">
+    <meta name="keywords" content="одежда, аксессуары, мода, стиль, онлайн магазин">
+    <meta name="author" content="Центр Кино™">
+    <meta property="og:title" content="Центр Кино™ - Главная">
+    <meta property="og:description" content="Онлайн магазин стильной одежды и аксессуаров">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <link rel="icon" type="image/svg+xml" href="favicoin/fovicoin.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="favicoin/fovicoin.svg">
+    <link rel="manifest" href="/manifest.json">
+    <title>Центр кино™ - Главная</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Local IBM Plex Mono font faces */
+        @font-face { font-family: 'IBM Plex Mono'; src: url('шрифт/IBMPlexMono-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; font-display: swap; }
+
+        /* Force IBM Plex Mono everywhere */
+        html, body, input, button, select, textarea, a, span, div, p, h1, h2, h3, h4, h5, h6 {
+            font-family: 'IBM Plex Mono', monospace !important;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: #1a1a1a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Font imports */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+        
+        @font-face {
+            font-family: 'Helvetica Neue';
+            src: url('https://fonts.cdnfonts.com/css/helvetica-neue-9') format('woff2');
+            font-weight: 300;
+            font-style: normal;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .nav-links {
+            position: relative;
+        }
+
+        .burger-menu {
+            width: 20px;
+            height: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .burger-menu:hover {
+            opacity: 0.7;
+        }
+
+        .burger-line {
+            width: 100%;
+            height: 1px;
+            background: #fff;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #fff;
+            padding: 100px 40px 40px 40px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        
+        .menu-close-btn {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #000;
+            padding: 10px;
+            transition: opacity 0.2s;
+        }
+        
+        .menu-close-btn:hover {
+            opacity: 0.7;
+        }
+
+        .menu-logo {
+            width: 120px;
+            height: 120px;
+            margin: 40px 0 60px 0;
+            flex-shrink: 0;
+        }
+
+        .menu-logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-link {
+            display: block;
+            color: #000;
+            text-decoration: underline;
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 20px 0;
+            transition: opacity 0.2s;
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        .dropdown-link:hover {
+            opacity: 0.7;
+        }
+
+        .logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-tm {
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .burger-menu {
+            width: 20px;
+            height: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .burger-menu:hover {
+            opacity: 0.7;
+        }
+
+        .burger-line {
+            width: 100%;
+            height: 1px;
+            background: #fff;
+            transition: all 0.3s;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .icon:hover {
+            opacity: 0.7;
+        }
+
+        .icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Main Content */
+        .main-content {
+            position: relative;
+            min-height: 100vh;
+            padding-top: 100px;
+            background: #f8f8f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Text Content Overlay */
+        .text-panel {
+            position: absolute;
+            left: 60px;
+            bottom: 60px;
+            z-index: 10;
+            color: #fff;
+            max-width: 500px;
+        }
+
+        .item-number {
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            color: #fff;
+        }
+
+        .product-title {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            line-height: 1.3;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .product-description {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #fff;
+            margin-bottom: 50px;
+            max-width: 500px;
+        }
+
+        /* Специфичные стили для описаний баннеров */
+        #banner1-description,
+        #banner2-description,
+        #banner3-description {
+            color: #fff !important;
+        }
+
+        /* Navigation Lines */
+        .nav-lines {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .nav-line {
+            width: 80px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-line:hover {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .nav-line.active {
+            background: #fff;
+            width: 100px;
+            position: relative;
+        }
+
+        .nav-line.active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: #fff;
+            width: 0%;
+            animation: fillLine 15s linear forwards;
+        }
+
+        @keyframes fillLine {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        .line-short {
+            width: 60px;
+            height: 1px;
+            background: #fff;
+        }
+
+        .line-long {
+            width: 120px;
+            height: 1px;
+            background: #fff;
+        }
+
+        .nav-arrows {
+            display: flex;
+            gap: 20px;
+            margin-left: 20px;
+        }
+
+        .nav-arrow {
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            font-weight: 300;
+        }
+
+        .nav-arrow:hover {
+            opacity: 0.7;
+        }
+
+        /* Full Screen Image */
+        .image-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+
+
+        /* Call to Action */
+        .cta-button {
+            position: absolute;
+            bottom: 60px;
+            right: 60px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #fff;
+            padding-bottom: 5px;
+            transition: opacity 0.2s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cta-button::after {
+            content: '→';
+            font-size: 16px;
+        }
+
+        .cta-button:hover {
+            opacity: 0.7;
+        }
+
+        /* Additional Content for Scrolling */
+        .additional-content {
+            padding: 80px 40px;
+            background: #fff;
+            color: #000;
+            margin-bottom: 40px;
+        }
+
+        .content-section {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 80px;
+            align-items: start;
+        }
+
+        .product-card {
+            background: #fff;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid transparent;
+            height: 700px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            min-height: 700px;
+            max-height: 700px;
+        }
+
+        .product-card:hover {
+            border-color: #000;
+        }
+
+        .product-image-small {
+            width: 100%;
+            height: 500px;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
+            min-height: 500px;
+            max-height: 500px;
+            overflow: hidden;
+        }
+
+        .product-number-small {
+            display: none;
+        }
+
+        .product-image-small img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .product-info {
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            min-height: 200px;
+            max-height: 200px;
+            overflow: hidden;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 300;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+            text-transform: uppercase;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .product-description {
+            font-size: 12px;
+            color: #666;
+            font-weight: 300;
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            white-space: normal;
+        }
+
+        .product-price-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 300;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #f44336;
+            color: #fff;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 10;
+        }
+
+        .product-price {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .discounted-price {
+            color: #f44336;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .product-card:hover .product-price-overlay {
+            opacity: 1;
+        }
+
+        .product-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .product-card:hover .product-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: transform 0.2s;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+}
+
+        .favorite-btn.active {
+            color: white;
+        }
+
+
+
+        .footer {
+            background: #fff;
+            padding: 60px 40px;
+            color: #000;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .footer-brand {
+            flex: 0 0 400px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .footer-logo-svg {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+        }
+
+        .footer-logo-svg svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .footer-brand-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .footer-copyright {
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .footer-logo {
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .footer-copyright {
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        .footer-corporate {
+            color: #000;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #000;
+            padding-bottom: 2px;
+            transition: opacity 0.2s;
+        }
+
+        .footer-corporate:hover {
+            opacity: 0.7;
+        }
+
+        .footer-columns {
+            display: flex;
+            gap: 40px;
+            margin-left: -100px;
+        }
+
+        .footer-column h3 {
+            font-size: 12px;
+            margin-bottom: 15px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #000;
+        }
+
+        .footer-column a {
+            display: block;
+            color: #666;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            transition: color 0.2s;
+        }
+
+        .footer-column a:hover {
+            color: #000;
+        }
+
+        /* Collection Block */
+        .collection-block {
+            position: relative;
+            height: 100vh;
+            background: #444;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .collection-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .collection-text {
+            position: absolute;
+            left: 60px;
+            bottom: 60px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 500px;
+        }
+
+        .collection-number {
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .collection-number::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: #fff;
+        }
+
+        .collection-title {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .collection-line {
+            width: 80px;
+            height: 1px;
+            background: #fff;
+            margin-top: 10px;
+        }
+
+        .collection-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .collection-image .image-placeholder {
+            font-size: 60px;
+            font-weight: 100;
+            color: white;
+        }
+
+        /* Social Links Section */
+        .social-section {
+            padding: 80px 40px;
+            background: #fff;
+            margin-top: 40px;
+        }
+
+        .social-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+
+        .social-card {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .social-card:hover {
+            transform: scale(1.02);
+        }
+
+        .social-image {
+            width: 100%;
+            height: 100%;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .social-image .image-placeholder {
+            font-size: 60px;
+            font-weight: 100;
+            color: white;
+        }
+
+        .social-overlay {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            color: #000;
+            z-index: 10;
+        }
+
+        .social-title {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .social-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #fff;
+            padding-bottom: 2px;
+            transition: opacity 0.2s;
+        }
+
+        .social-link:hover {
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding-top: 80px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .nav-links {
+                gap: 30px;
+            }
+
+            .text-panel {
+                left: 20px;
+                bottom: 40px;
+                max-width: 300px;
+            }
+
+            .product-title {
+                font-size: 18px;
+            }
+
+            .product-description {
+                font-size: 14px;
+            }
+
+            .cta-button {
+                bottom: 40px;
+                right: 20px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .footer-brand {
+                flex: none;
+            }
+
+            .footer-columns {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .collection-text {
+                left: 20px;
+                bottom: 40px;
+                max-width: 300px;
+            }
+
+            .collection-title {
+                font-size: 24px;
+            }
+
+            .collection-content {
+                height: 100vh;
+            }
+
+            .social-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .social-card {
+                height: 300px;
+            }
+
+            .social-overlay {
+                bottom: 20px;
+                left: 20px;
+            }
+
+            .social-title {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Banner System Styles */
+        .main-content .banner {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            opacity: 0 !important;
+            transition: opacity 0.5s ease-in-out !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            z-index: 1 !important;
+        }
+
+        .main-content .banner.active {
+            opacity: 1 !important;
+            z-index: 2 !important;
+        }
+
+        .main-content .banner:first-child {
+            opacity: 1 !important;
+            z-index: 2 !important;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Глобальные переменные для баннеров
+        let currentBanner = 1;
+        let bannerData = {
+            banner1: {
+                number: '001',
+                title: 'Осень-Зима \'025-\'026: Легкая куртка из нейлона',
+                description: 'Актер Исаак Хейл демонстрирует Q100008 - легкую куртку с капюшоном из высокопрочного нейлона. Полупрозрачная ткань имеет двойной слой в отдельных областях для улучшения геометрии изделия.',
+                image: null
+            },
+            banner2: {
+                number: '002',
+                title: 'Весна-Лето \'026: Футболка из хлопка',
+                description: 'Классическая футболка из 100% хлопка с минималистичным дизайном. Идеально подходит для повседневной носки.',
+                image: null
+            },
+            banner3: {
+                number: '003',
+                title: 'Демисезон: Джинсы премиум качества',
+                description: 'Джинсы из денима премиум качества с современным кроем. Сочетают в себе комфорт и стиль.',
+                image: null
+            }
+        };
+
+        // Показать конкретный баннер
+        function showBanner(bannerNumber) {
+            console.log(`🎯 Показываем баннер ${bannerNumber}`);
+            
+            // Скрываем все баннеры
+            document.getElementById('banner1').classList.remove('active');
+            document.getElementById('banner2').classList.remove('active');
+            document.getElementById('banner3').classList.remove('active');
+            
+            // Убираем активный класс со всех навигационных линий
+            document.querySelectorAll('.nav-line').forEach(line => line.classList.remove('active'));
+            
+            // Показываем нужный баннер
+            document.getElementById(`banner${bannerNumber}`).classList.add('active');
+            
+            // Активируем соответствующую навигационную линию
+            document.querySelectorAll('.nav-line')[bannerNumber - 1].classList.add('active');
+            
+            // Обновляем текущий баннер
+            currentBanner = bannerNumber;
+            
+            // Перезапускаем автослайдер
+            restartAutoSlide();
+            
+            console.log(`✅ Баннер ${bannerNumber} показан`);
+        }
+
+        // Сменить баннер
+        function changeBanner(direction) {
+            const next = currentBanner + direction;
+            if (next >= 1 && next <= 3) {
+                showBanner(next);
+            }
+        }
+
+        // Автоматическое переключение баннеров
+        let autoSlideInterval;
+
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(() => {
+                const next = currentBanner + 1;
+                if (next > 3) {
+                    showBanner(1); // Переход к первому баннеру
+                } else {
+                    showBanner(next);
+                }
+            }, 15000); // 15 секунд
+        }
+
+        function stopAutoSlide() {
+            if (autoSlideInterval) {
+                clearInterval(autoSlideInterval);
+            }
+        }
+
+        // Перезапуск автослайдера при ручном переключении
+        function restartAutoSlide() {
+            stopAutoSlide();
+            startAutoSlide();
+        }
+
+        // Обновить все баннеры
+        function updateAllBanners() {
+            // Обновляем баннер 1
+            document.getElementById('banner1-number').textContent = bannerData.banner1.number;
+            document.getElementById('banner1-title').textContent = bannerData.banner1.title;
+            document.getElementById('banner1-description').textContent = bannerData.banner1.description;
+            
+            // Обновляем изображение баннера 1
+            const banner1ImageContainer = document.getElementById('banner1-image');
+            banner1ImageContainer.innerHTML = '';
+            if (bannerData.banner1.image) {
+                const img = document.createElement('img');
+                img.src = bannerData.banner1.image;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '8px';
+                banner1ImageContainer.appendChild(img);
+            }
+            
+            // Обновляем баннер 2
+            document.getElementById('banner2-number').textContent = bannerData.banner2.number;
+            document.getElementById('banner2-title').textContent = bannerData.banner2.title;
+            document.getElementById('banner2-description').textContent = bannerData.banner2.description;
+            
+            // Обновляем изображение баннера 2
+            const banner2ImageContainer = document.getElementById('banner2-image');
+            banner2ImageContainer.innerHTML = '';
+            if (bannerData.banner2.image) {
+                const img = document.createElement('img');
+                img.src = bannerData.banner2.image;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '8px';
+                banner2ImageContainer.appendChild(img);
+            }
+            
+            // Обновляем баннер 3
+            document.getElementById('banner3-number').textContent = bannerData.banner3.number;
+            document.getElementById('banner3-title').textContent = bannerData.banner3.title;
+            document.getElementById('banner3-description').textContent = bannerData.banner3.description;
+            
+            // Обновляем изображение баннера 3
+            const banner3ImageContainer = document.getElementById('banner3-image');
+            banner3ImageContainer.innerHTML = '';
+            if (bannerData.banner3.image) {
+                const img = document.createElement('img');
+                img.src = bannerData.banner3.image;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '8px';
+                banner3ImageContainer.appendChild(img);
+            }
+        }
+
+        // Загрузить контент из localStorage
+        function loadContentFromStorage() {
+            console.log('🔄 Загружаем контент из localStorage...');
+            
+            const content = JSON.parse(localStorage.getItem('pageContent') || '{}');
+            const mainContent = content.main || {};
+            
+            console.log('📦 Данные из localStorage:', mainContent);
+            
+            // Обновляем данные для каждого баннера отдельно
+            if (mainContent.banner1) {
+                console.log('✅ Обновляем Баннер 1:', mainContent.banner1);
+                bannerData.banner1 = {
+                    number: mainContent.banner1.number || bannerData.banner1.number,
+                    title: mainContent.banner1.title || bannerData.banner1.title,
+                    description: mainContent.banner1.description || bannerData.banner1.description,
+                    image: mainContent.banner1.image || bannerData.banner1.image
+                };
+            }
+            
+            if (mainContent.banner2) {
+                console.log('✅ Обновляем Баннер 2:', mainContent.banner2);
+                bannerData.banner2 = {
+                    number: mainContent.banner2.number || bannerData.banner2.number,
+                    title: mainContent.banner2.title || bannerData.banner2.title,
+                    description: mainContent.banner2.description || bannerData.banner2.description,
+                    image: mainContent.banner2.image || bannerData.banner2.image
+                };
+            }
+            
+            if (mainContent.banner3) {
+                console.log('✅ Обновляем Баннер 3:', mainContent.banner3);
+                bannerData.banner3 = {
+                    number: mainContent.banner3.number || bannerData.banner3.number,
+                    title: mainContent.banner3.title || bannerData.banner3.title,
+                    description: mainContent.banner3.description || bannerData.banner3.description,
+                    image: mainContent.banner3.image || bannerData.banner3.image
+                };
+            }
+            
+            console.log('📋 Финальные данные баннеров:', bannerData);
+            
+            // Обновляем отображение всех баннеров
+            updateAllBanners();
+            
+            // Показываем текущий баннер
+            showBanner(currentBanner);
+            
+            // Принудительно обновляем изображения
+            console.log('🔄 Принудительное обновление изображений...');
+            setTimeout(() => {
+                updateAllBanners();
+                console.log('✅ Изображения обновлены');
+            }, 100);
+            
+            // Обновляем баннер 4
+            if (mainContent.banner4) {
+                console.log('✅ Обновляем Баннер 4:', mainContent.banner4);
+                updateBanner4(mainContent.banner4);
+            }
+        }
+
+        // ПРОСТАЯ ФУНКЦИЯ ДЛЯ БАННЕРА 4 - КАК В ТОВАРАХ
+        function updateBanner4(bannerData) {
+            console.log('🔄 Обновляем баннер 4:', bannerData);
+            
+            // Обновляем номер
+            const numberElement = document.getElementById('main-banner4-number');
+            if (numberElement) {
+                numberElement.textContent = bannerData.number || '';
+            }
+            
+            // Обновляем заголовок
+            const titleElement = document.getElementById('main-banner4-title');
+            if (titleElement) {
+                titleElement.textContent = bannerData.title || '';
+            }
+            
+            // Обновляем изображение
+            const imageElement = document.getElementById('main-banner4-image');
+            if (imageElement) {
+                // Очищаем контейнер
+                imageElement.innerHTML = '';
+                
+                if (bannerData.image) {
+                    console.log('✅ Загружаем изображение баннера 4:', bannerData.image.substring(0, 50) + '...');
+                    const img = document.createElement('img');
+                    img.src = bannerData.image;
+                    img.style.width = '100%';
+                    img.style.height = '100%';
+                    img.style.objectFit = 'cover';
+                    img.style.position = 'absolute';
+                    img.style.top = '0';
+                    img.style.left = '0';
+                    img.style.right = '0';
+                    img.style.bottom = '0';
+                    imageElement.appendChild(img);
+                    
+                    // Убираем фон у всех контейнеров
+                    imageElement.style.background = 'transparent';
+                    const collectionBlock = imageElement.closest('.collection-block');
+                    const collectionContent = imageElement.closest('.collection-content');
+                    if (collectionBlock) {
+                        collectionBlock.style.background = 'transparent';
+                    }
+                    if (collectionContent) {
+                        collectionContent.style.background = 'transparent';
+                    }
+                } else {
+                    console.log('❌ Нет изображения для баннера 4, показываем placeholder');
+                    // Восстанавливаем placeholder если нет изображения
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'image-placeholder';
+                    placeholder.textContent = '6';
+                    imageElement.appendChild(placeholder);
+                    
+                    // Восстанавливаем фон для placeholder
+                    imageElement.style.background = '#444';
+                    const collectionBlock = imageElement.closest('.collection-block');
+                    const collectionContent = imageElement.closest('.collection-content');
+                    if (collectionBlock) {
+                        collectionBlock.style.background = '#444';
+                    }
+                    if (collectionContent) {
+                        collectionContent.style.background = '#444';
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-links">
+            <div class="burger-menu" id="burgerMenu">
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <button class="menu-close-btn" onclick="closeMenu()">←</button>
+                <div class="menu-logo">
+                    <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 400 400">
+                        <defs>
+                            <style>
+                                .st0 {
+                                    fill: none;
+                                    stroke: #231f20;
+                                    stroke-miterlimit: 10;
+                                    stroke-width: 11px;
+                                }
+                            </style>
+                        </defs>
+                        <polygon class="st0" points="377.37 382.49 21.01 253.6 21.05 150.75 377.37 22.22 377.37 382.49"/>
+                        <polygon class="st0" points="219.63 382.49 20.86 277.13 20.89 126.59 219.63 21.79 219.63 382.49"/>
+                        <polygon class="st0" points="99.83 382.25 20.86 316.99 20.86 87.02 99.83 22.46 99.83 382.25"/>
+                    </svg>
+                </div>
+                <a href="about.html" class="dropdown-link">О нас</a>
+                <a href="catalog.html" class="dropdown-link">Каталог</a>
+                <a href="help.html" class="dropdown-link">Помощь</a>
+                <a href="favorites.html" class="dropdown-link">Избранное</a>
+                <a href="orders.html" class="dropdown-link">Мои заказы</a>
+            </div>
+        </div>
+        <div class="logo">
+            <a href="index.html" style="color: inherit; text-decoration: none;">Центр кино™</a>
+        </div>
+        <div class="header-right">
+                            <div class="header-icons">
+                    <div class="icon" onclick="window.location.href='catalog.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M14 14L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='favorites.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M10 17.5L8.5 16.1C4.5 12.3 2 9.7 2 6.5C2 3.9 4.1 1.8 6.7 1.8C7.8 1.8 8.9 2.2 9.7 3C10.5 2.2 11.6 1.8 12.7 1.8C15.3 1.8 17.4 3.9 17.4 6.5C17.4 9.7 14.9 12.3 10.9 16.1L10 17.5Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='cart.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <rect x="3" y="4" width="14" height="12" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <path d="M3 4L5 1H15L17 4" stroke="currentColor" stroke-width="1.5"/>
+                            <circle cx="7" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <circle cx="13" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='account.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="6" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <path d="M3 17C3 13.1 6.1 10 10 10C13.9 10 17 13.1 17 17" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Banner 1 -->
+        <div class="banner" id="banner1">
+            <!-- Left Panel - Text Content -->
+            <div class="text-panel">
+                <div class="item-number" id="banner1-number">001</div>
+                
+                <h1 class="product-title" id="banner1-title">Осень-Зима '025-'026: Легкая куртка из нейлона</h1>
+                
+                <p class="product-description" id="banner1-description">
+                    Актер Исаак Хейл демонстрирует Q100008 - легкую куртку с капюшоном из высокопрочного нейлона. 
+                    Полупрозрачная ткань имеет двойной слой в отдельных областях для улучшения геометрии изделия.
+                </p>
+
+                <!-- Navigation Lines -->
+                <div class="nav-lines">
+                    <div class="nav-line active" onclick="showBanner(1)" style="cursor: pointer;" title="Баннер 1"></div>
+                    <div class="nav-line" onclick="showBanner(2)" style="cursor: pointer;" title="Баннер 2"></div>
+                    <div class="nav-line" onclick="showBanner(3)" style="cursor: pointer;" title="Баннер 3"></div>
+                    <div class="nav-arrows">
+                        <span class="nav-arrow" onclick="changeBanner(-1)">‹</span>
+                        <span class="nav-arrow" onclick="changeBanner(1)">›</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Image -->
+            <div class="image-panel">
+                <div class="product-image" id="banner1-image">
+                </div>
+                
+                <!-- Call to Action -->
+                <a href="catalog.html" class="cta-button">Смотреть новинки</a>
+            </div>
+        </div>
+
+        <!-- Banner 2 -->
+        <div class="banner" id="banner2">
+            <!-- Left Panel - Text Content -->
+            <div class="text-panel">
+                <div class="item-number" id="banner2-number">002</div>
+                
+                <h1 class="product-title" id="banner2-title">Весна-Лето '026: Футболка из хлопка</h1>
+                
+                <p class="product-description" id="banner2-description">
+                    Классическая футболка из 100% хлопка с минималистичным дизайном. Идеально подходит для повседневной носки.
+                </p>
+
+                <!-- Navigation Lines -->
+                <div class="nav-lines">
+                    <div class="nav-line" onclick="showBanner(1)" style="cursor: pointer;" title="Баннер 1"></div>
+                    <div class="nav-line active" onclick="showBanner(2)" style="cursor: pointer;" title="Баннер 2"></div>
+                    <div class="nav-line" onclick="showBanner(3)" style="cursor: pointer;" title="Баннер 3"></div>
+                    <div class="nav-arrows">
+                        <span class="nav-arrow" onclick="changeBanner(-1)">‹</span>
+                        <span class="nav-arrow" onclick="changeBanner(1)">›</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Image -->
+            <div class="image-panel">
+                <div class="product-image" id="banner2-image">
+                </div>
+                
+                <!-- Call to Action -->
+                <a href="catalog.html" class="cta-button">Смотреть новинки</a>
+            </div>
+        </div>
+
+        <!-- Banner 3 -->
+        <div class="banner" id="banner3">
+            <!-- Left Panel - Text Content -->
+            <div class="text-panel">
+                <div class="item-number" id="banner3-number">003</div>
+                
+                <h1 class="product-title" id="banner3-title">Демисезон: Джинсы премиум качества</h1>
+                
+                <p class="product-description" id="banner3-description">
+                    Джинсы из денима премиум качества с современным кроем. Сочетают в себе комфорт и стиль.
+                </p>
+
+                <!-- Navigation Lines -->
+                <div class="nav-lines">
+                    <div class="nav-line" onclick="showBanner(1)" style="cursor: pointer;" title="Баннер 1"></div>
+                    <div class="nav-line" onclick="showBanner(2)" style="cursor: pointer;" title="Баннер 2"></div>
+                    <div class="nav-line active" onclick="showBanner(3)" style="cursor: pointer;" title="Баннер 3"></div>
+                    <div class="nav-arrows">
+                        <span class="nav-arrow" onclick="changeBanner(-1)">‹</span>
+                        <span class="nav-arrow" onclick="changeBanner(1)">›</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Image -->
+            <div class="image-panel">
+                <div class="product-image" id="banner3-image">
+                </div>
+                
+                <!-- Call to Action -->
+                <a href="catalog.html" class="cta-button">Смотреть новинки</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Content for Scrolling -->
+    <section class="additional-content">
+        <div class="content-section" data-section="new-arrivals">
+            <h2 class="section-title">Новые поступления</h2>
+            <div class="products-grid">
+                <div class="product-card" onclick="window.location.href='product.html?id=2'">
+                    <div class="product-image-small">
+                        <div class="product-price-overlay">2,250 ₽</div>
+                        <div class="product-actions">
+                            <button class="action-btn favorite-btn" onclick="event.stopPropagation(); addToFavorites(2)">♡</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">4100040 RAW LINEN PLATED-OVD</h3>
+                        <p class="product-description">Jacket with transparent resins and collapsible hood</p>
+                    </div>
+                </div>
+                <div class="product-card" onclick="window.location.href='product.html?id=3'">
+                    <div class="product-image-small">
+                        <div class="product-price-overlay">2,250 ₽</div>
+                        <div class="product-actions">
+                            <button class="action-btn favorite-btn" onclick="event.stopPropagation(); addToFavorites(3)">♡</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">4100024 LIGHT COMPACT TOUCH POLY-TC</h3>
+                        <p class="product-description">Short trench coat with matt appearance and anti-drop</p>
+                    </div>
+                </div>
+                <div class="product-card" onclick="window.location.href='product.html?id=4'">
+                    <div class="product-image-small">
+                        <div class="product-price-overlay">2,250 ₽</div>
+                        <div class="product-actions">
+                            <button class="action-btn favorite-btn" onclick="event.stopPropagation(); addToFavorites(4)">♡</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">4100096 ORGANIC LOOK NYLON PANAMA-TC</h3>
+                        <p class="product-description">Hooded jacket with Panama weave and anti-drop</p>
+                    </div>
+                </div>
+                <div class="product-card" onclick="window.location.href='product.html?id=5'">
+                    <div class="product-image-small">
+                        <div class="product-price-overlay">2,250 ₽</div>
+                        <div class="product-actions">
+                            <button class="action-btn favorite-btn" onclick="event.stopPropagation(); addToFavorites(5)">♡</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">2100025 COMBED ORGANIC COTTON JERSEY</h3>
+                        <p class="product-description">T-shirt with organic cotton and stretch fit</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Collection Block -->
+    <section class="collection-block">
+        <div class="collection-content">
+            <div class="collection-text">
+                <div class="collection-number" id="main-banner4-number">+ 001</div>
+                <h2 class="collection-title" id="main-banner4-title">ЦЕНТР КИНО SOUND</h2>
+                <div class="collection-line"></div>
+            </div>
+            <div class="collection-image" id="main-banner4-image">
+                <div class="image-placeholder">6</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Links Section -->
+    <section class="social-section">
+        <div class="social-grid">
+            <div class="social-card">
+                <div class="social-image">
+                    <div class="image-placeholder">7</div>
+                </div>
+                <div class="social-overlay">
+                    <h3 class="social-title">TELEGRAM</h3>
+                    <a href="#" class="social-link">ПОДРОБНЕЕ</a>
+                </div>
+            </div>
+            <div class="social-card">
+                <div class="social-image">
+                    <div class="image-placeholder">8</div>
+                </div>
+                <div class="social-overlay">
+                    <h3 class="social-title">VK MARKET</h3>
+                    <a href="#" class="social-link">ПОДРОБНЕЕ</a>
+                </div>
+            </div>
+            <div class="social-card">
+                <div class="social-image">
+                    <div class="image-placeholder">9</div>
+                </div>
+                <div class="social-overlay">
+                    <h3 class="social-title">КИНОШЁП</h3>
+                    <a href="#" class="social-link">ПОДРОБНЕЕ</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo-svg">
+                    <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 400 400">
+                        <defs>
+                            <style>
+                                .st0 {
+                                    fill: none;
+                                    stroke: #231f20;
+                                    stroke-miterlimit: 10;
+                                    stroke-width: 11px;
+                                }
+                            </style>
+                        </defs>
+                        <polygon class="st0" points="377.37 382.49 21.01 253.6 21.05 150.75 377.37 22.22 377.37 382.49"/>
+                        <polygon class="st0" points="219.63 382.49 20.86 277.13 20.89 126.59 219.63 21.79 219.63 382.49"/>
+                        <polygon class="st0" points="99.83 382.25 20.86 316.99 20.86 87.02 99.83 22.46 99.83 382.25"/>
+                    </svg>
+                </div>
+                <div class="footer-brand-text">
+                    <div class="footer-copyright">Центр кино™ © 2025, ООО "Центр Кино". Все права защищены.</div>
+                </div>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <a href="privacy-policy.html">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a>
+                </div>
+                <div class="footer-column">
+                </div>
+                <div class="footer-column">
+                    <a href="return-policy.html">ПОЛИТИКА ВОЗВРАТА И ОБМЕНА</a>
+                </div>
+                <div class="footer-column">
+                    <a href="terms-of-sale.html">ПОЛОЖЕНИЯ И УСЛОВИЯ ПРОДАЖИ</a>
+                </div>
+                <div class="footer-column">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Простая навигация между слайдами
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('Service Worker registered successfully');
+                })
+                .catch(error => {
+                    console.log('Service Worker registration failed:', error);
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+
+
+
+            // Collection block content management (for admin panel)
+            window.updateCollectionBlock = function(number, title) {
+                const collectionNumber = document.querySelector('.collection-number');
+                const collectionTitle = document.querySelector('.collection-title');
+                
+                if (collectionNumber) {
+                    collectionNumber.textContent = `+ ${number}`;
+                }
+                if (collectionTitle) {
+                    collectionTitle.textContent = title;
+                }
+            };
+
+            // Burger menu functionality
+            const burgerMenu = document.getElementById('burgerMenu');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+
+            burgerMenu.addEventListener('click', function() {
+                dropdownMenu.classList.toggle('active');
+            });
+
+            // Close menu function
+            window.closeMenu = function() {
+                dropdownMenu.classList.remove('active');
+            };
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!burgerMenu.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.classList.remove('active');
+                }
+            });
+
+            // Add to favorites function
+            window.addToFavorites = function(productId) {
+                const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+                const existingItem = favorites.find(item => item.id === productId);
+                const favoriteBtn = event.target;
+                
+                if (!existingItem) {
+                    // Add to favorites
+                    const products = JSON.parse(localStorage.getItem('products') || '[]');
+                    const product = products.find(p => p.id === productId);
+                    
+                    if (product) {
+                        const productData = {
+                            id: productId,
+                            name: product.name,
+                            category: product.category,
+                            price: product.price
+                        };
+                        favorites.push(productData);
+                        localStorage.setItem('favorites', JSON.stringify(favorites));
+                        favoriteBtn.classList.add('active');
+                        favoriteBtn.textContent = '♡';
+                    }
+                } else {
+                    // Remove from favorites
+                    const updatedFavorites = favorites.filter(item => item.id !== productId);
+                    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+                    favoriteBtn.classList.remove('active');
+                    favoriteBtn.textContent = '♡';
+                }
+            };
+
+
+
+            // Get product name by ID
+            function getProductName(productId) {
+                const products = JSON.parse(localStorage.getItem('products') || '[]');
+                const product = products.find(p => p.id === productId);
+                return product ? product.name : 'Product';
+            }
+
+            // Load products from localStorage and update the page
+            function loadProductsFromStorage() {
+                const products = JSON.parse(localStorage.getItem('products') || '[]');
+                const productsGrid = document.querySelector('.products-grid');
+                
+                if (products.length > 0) {
+                    // Берем первые 4 товара для отображения
+                    const displayProducts = products.slice(0, 4);
+                    
+                    productsGrid.innerHTML = displayProducts.map(product => `
+                        <div class="product-card" onclick="window.location.href='product.html?id=${product.id}'">
+                            <div class="product-image-small">
+                                <div class="product-number-small">${product.id}</div>
+                                <div class="product-price-overlay">${product.price.toLocaleString()} ₽</div>
+                                <div class="product-actions">
+                                    <button class="action-btn favorite-btn" onclick="event.stopPropagation(); addToFavorites(${product.id})">♡</button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">${product.name}</h3>
+                                <p class="product-description">${product.description}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                    // Обновляем состояние кнопок избранного
+                    updateFavoriteButtons();
+                }
+            }
+            
+            // Update favorite buttons state
+            function updateFavoriteButtons() {
+                const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+                const favoriteBtns = document.querySelectorAll('.favorite-btn');
+                
+                favoriteBtns.forEach(btn => {
+                    const productId = parseInt(btn.getAttribute('onclick').match(/\d+/)[0]);
+                    const isInFavorites = favorites.find(item => item.id === productId);
+                    
+                    if (isInFavorites) {
+                        btn.classList.add('active');
+                        btn.textContent = '♡';
+                    }
+                });
+            }
+            
+
+            
+            // Load products and update page
+            loadProductsFromStorage();
+            
+            // Load content and update page
+            loadContentFromStorage();
+            
+            // Загружаем "Новые поступления"
+            updateNewArrivals();
+            
+            // Загружаем переходы
+            updateTransitions();
+            
+            // Автоматическое обновление "Новые поступления" каждые 3 секунды
+            setInterval(updateNewArrivals, 3000);
+            
+            // Автоматическое обновление переходов каждые 3 секунды
+            setInterval(updateTransitions, 3000);
+            
+
+        });
+
+        // ФУНКЦИЯ ДЛЯ ОБНОВЛЕНИЯ "НОВЫЕ ПОСТУПЛЕНИЯ"
+        function updateNewArrivals() {
+            console.log('🔄 Обновляем "Новые поступления"');
+            
+            // Загружаем данные из localStorage
+            const pageContent = JSON.parse(localStorage.getItem('pageContent') || '{}');
+            const newArrivals = pageContent.newArrivals || {};
+            console.log('📊 Данные "Новые поступления":', newArrivals);
+            
+            // Получаем все товары из админ панели
+            const productIds = JSON.parse(localStorage.getItem('productIds') || '[]');
+            const allProducts = [];
+            
+            productIds.forEach(id => {
+                const productData = localStorage.getItem(`product_${id}`);
+                if (productData) {
+                    try {
+                        const product = JSON.parse(productData);
+                        allProducts.push(product);
+                    } catch (error) {
+                        console.error(`Ошибка при загрузке товара ${id}:`, error);
+                    }
+                }
+            });
+            
+            console.log('📦 Все товары:', allProducts.length, 'шт.');
+            
+            // Создаем HTML для блока "Новые поступления"
+            let newArrivalsHTML = `
+                <div class="content-section" data-section="new-arrivals">
+                    <h2 class="section-title">Новые поступления</h2>
+                    <div class="products-grid">
+            `;
+            
+            // Добавляем товары
+            for (let i = 1; i <= 4; i++) {
+                const productKey = `product${i}`;
+                const productId = newArrivals[productKey];
+                console.log(`🔍 ${productKey}:`, productId);
+                
+                if (productId) {
+                    const product = allProducts.find(p => p.id === parseInt(productId));
+                    console.log(`🎯 Товар для ${productKey}:`, product);
+                    
+                    if (product) {
+                        // Проверяем наличие изображения
+                        const productImage = product.images && product.images.length > 0 && product.images[0] ? product.images[0] : 'placeholder.jpg';
+                        
+                        // Проверяем скидки для товара
+                        const discounts = JSON.parse(localStorage.getItem('discounts') || '[]');
+                        const activeDiscount = discounts.find(discount => 
+                            discount.productId === product.id.toString() && 
+                            new Date(discount.startDate) <= new Date() && 
+                            new Date(discount.endDate) >= new Date()
+                        );
+                        
+                        let finalPrice = product.price || 0;
+                        let originalPrice = product.price || 0;
+                        let discountBadge = '';
+                        let priceDisplay = `${finalPrice.toLocaleString()} ₽`;
+                        
+                        if (activeDiscount) {
+                            if (activeDiscount.type === 'percentage') {
+                                finalPrice = Math.round(originalPrice * (1 - activeDiscount.value / 100));
+                            } else {
+                                finalPrice = Math.max(0, originalPrice - activeDiscount.value);
+                            }
+                            discountBadge = '<div class="discount-badge">СКИДКА</div>';
+                            priceDisplay = `
+                                <div class="product-price">
+                                    <span class="original-price">${originalPrice.toLocaleString()} ₽</span>
+                                    <span class="discounted-price">${finalPrice.toLocaleString()} ₽</span>
+                                </div>
+                            `;
+                        }
+                        
+                        newArrivalsHTML += `
+                            <div class="product-card" id="new-arrival-${i}" onclick="window.location.href='product.html?id=${product.id}'">
+                                <div class="product-image-small">
+                                    <img src="${productImage}" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 1;">
+                                    ${discountBadge}
+                                    <div class="product-price-overlay">${priceDisplay}</div>
+                                    <div class="product-actions">
+                                        <button class="action-btn favorite-btn" onclick="event.stopPropagation(); addToFavorites(${product.id})">♡</button>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-name">${product.name}</h3>
+                                    <p class="product-description">${product.description}</p>
+                                </div>
+                            </div>
+                        `;
+                        console.log(`✅ Добавлен товар ${i}:`, product.name);
+                    } else {
+                        // Если товар не найден, показываем placeholder
+                        newArrivalsHTML += `
+                            <div class="product-card" id="new-arrival-${i}">
+                                <div class="product-image-small">
+                                    <div class="product-price-overlay">2,250 ₽</div>
+                                    <div class="product-actions">
+                                        <button class="action-btn favorite-btn" onclick="addToFavorites(${i + 1})">♡</button>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-name">Товар ${i + 1}</h3>
+                                    <p class="product-description">Описание товара</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                } else {
+                    // Если нет данных о товаре, показываем placeholder
+                    newArrivalsHTML += `
+                        <div class="product-card" id="new-arrival-${i}">
+                            <div class="product-image-small">
+                                <div class="product-price-overlay">2,250 ₽</div>
+                                <div class="product-actions">
+                                    <button class="action-btn favorite-btn" onclick="addToFavorites(${i + 1})">♡</button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">Товар ${i + 1}</h3>
+                                <p class="product-description">Описание товара</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            newArrivalsHTML += `
+                    </div>
+                </div>
+            `;
+            
+            // Обновляем блок на главной странице
+            const newArrivalsSection = document.querySelector('.content-section[data-section="new-arrivals"]');
+            if (newArrivalsSection) {
+                newArrivalsSection.outerHTML = newArrivalsHTML;
+                console.log('✅ Блок "Новые поступления" обновлен на главной странице');
+            } else {
+                console.log('❌ Элемент new-arrivals не найден на главной странице');
+            }
+        }
+
+        // ФУНКЦИЯ ДЛЯ ОБНОВЛЕНИЯ ПЕРЕХОДОВ
+        function updateTransitions() {
+            console.log('🔄 Обновляем переходы на главной странице');
+            
+            // Загружаем данные из localStorage
+            const pageContent = JSON.parse(localStorage.getItem('pageContent') || '{}');
+            const transitions = pageContent.transitions || {};
+            console.log('📊 Данные переходов:', transitions);
+            
+            // Обновляем каждый блок
+            for (let i = 1; i <= 3; i++) {
+                const blockKey = `block${i}`;
+                const blockData = transitions[blockKey];
+                console.log(`🔍 ${blockKey}:`, blockData);
+                
+                if (blockData) {
+                    // Находим соответствующий блок на странице
+                    const socialCards = document.querySelectorAll('.social-card');
+                    const targetCard = socialCards[i - 1]; // i-1 потому что индексы начинаются с 0
+                    
+                    if (targetCard) {
+                        // Обновляем изображение
+                        const imageContainer = targetCard.querySelector('.social-image');
+                        if (imageContainer && blockData.image) {
+                            console.log(`✅ Обновляем изображение для ${blockKey}:`, blockData.image.substring(0, 50) + '...');
+                            imageContainer.innerHTML = `
+                                <img src="${blockData.image}" alt="${blockData.title || 'Social'}" style="width: 100%; height: 100%; object-fit: cover;">
+                            `;
+                        } else if (imageContainer) {
+                            // Восстанавливаем placeholder если нет изображения
+                            const placeholderNumber = i === 1 ? '15' : i === 2 ? '16' : '17';
+                            imageContainer.innerHTML = `
+                                <div class="image-placeholder">${placeholderNumber}</div>
+                            `;
+                        }
+                        
+                        // Обновляем заголовок
+                        const titleElement = targetCard.querySelector('.social-title');
+                        if (titleElement && blockData.title) {
+                            console.log(`✅ Обновляем заголовок для ${blockKey}:`, blockData.title);
+                            titleElement.textContent = blockData.title;
+                        }
+                        
+                        // Обновляем ссылку
+                        const linkElement = targetCard.querySelector('.social-link');
+                        if (linkElement && blockData.link) {
+                            console.log(`✅ Обновляем ссылку для ${blockKey}:`, blockData.link);
+                            linkElement.href = blockData.link;
+                            // Делаем весь блок кликабельным
+                            targetCard.onclick = function() {
+                                window.open(blockData.link, '_blank');
+                            };
+                        } else if (linkElement) {
+                            // Убираем кликабельность если нет ссылки
+                            targetCard.onclick = null;
+                        }
+                    } else {
+                        console.log(`❌ Блок ${blockKey} не найден на главной странице`);
+                    }
+                } else {
+                    console.log(`❌ Нет данных для ${blockKey}`);
+                }
+            }
+        }
+    </script>
+    <script src="statistics.js">    </script>
+
+    <!-- Cookie Consent Popup -->
+    <div id="cookieConsent" class="cookie-consent" style="display: none;">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                <h3>Использование файлов cookie</h3>
+                <p>Мы используем файлы cookie для улучшения работы сайта и предоставления персонализированного контента. Продолжая использовать сайт, вы соглашаетесь с нашей <a href="privacy-policy.html" target="_blank">Политикой конфиденциальности</a> и использованием файлов cookie.</p>
+            </div>
+            <div class="cookie-buttons">
+                <button id="acceptCookies" class="cookie-btn accept-btn">Принять</button>
+                <button id="declineCookies" class="cookie-btn decline-btn">Отклонить</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .cookie-consent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            padding: 30px 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cookie-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .cookie-text h3 {
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .cookie-text p {
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #ccc;
+            margin: 0;
+        }
+
+        .cookie-text a {
+            color: #fff;
+            text-decoration: none;
+            border-bottom: 1px solid #fff;
+            padding-bottom: 1px;
+            transition: opacity 0.2s;
+        }
+
+        .cookie-text a:hover {
+            opacity: 0.7;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 15px;
+            flex-shrink: 0;
+        }
+
+        .cookie-btn {
+            padding: 12px 24px;
+            border: 1px solid #fff;
+            background: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .accept-btn {
+            background: #fff;
+            color: #000;
+        }
+
+        .accept-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .decline-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .cookie-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .cookie-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+
+    <script>
+        // Cookie Consent Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookieConsent = document.getElementById('cookieConsent');
+            const acceptBtn = document.getElementById('acceptCookies');
+            const declineBtn = document.getElementById('declineCookies');
+            
+            // Check if user has already made a choice
+            const cookieChoice = localStorage.getItem('cookieConsent');
+            
+            if (!cookieChoice) {
+                // Show cookie consent popup after a short delay
+                setTimeout(() => {
+                    cookieConsent.style.display = 'block';
+                }, 1000);
+            }
+            
+            acceptBtn.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'accepted');
+                cookieConsent.style.display = 'none';
+            });
+            
+            declineBtn.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'declined');
+                cookieConsent.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html> 

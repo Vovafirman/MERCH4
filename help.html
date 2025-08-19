@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicoin/fovicoin.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="favicoin/fovicoin.svg">
+    <title>Центр кино™ - Помощь</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Local IBM Plex Mono font faces */
+        @font-face { font-family: 'IBM Plex Mono'; src: url('шрифт/IBMPlexMono-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; font-display: swap; }
+
+        /* Force IBM Plex Mono everywhere */
+        html, body, input, button, select, textarea, a, span, div, p, h1, h2, h3, h4, h5, h6 {
+            font-family: 'IBM Plex Mono', monospace !important;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: #fff;
+            color: #000;
+            overflow-x: hidden;
+        }
+
+        /* Font imports */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: #fff;
+        }
+
+        .nav-links {
+            position: relative;
+        }
+
+        .burger-menu {
+            width: 20px;
+            height: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .burger-menu:hover {
+            opacity: 0.7;
+        }
+
+        .burger-line {
+            width: 100%;
+            height: 1px;
+            background: #000;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #fff;
+            padding: 100px 40px 40px 40px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        
+        .menu-close-btn {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #000;
+            padding: 10px;
+            transition: opacity 0.2s;
+        }
+        
+        .menu-close-btn:hover {
+            opacity: 0.7;
+        }
+
+        .menu-logo {
+            width: 120px;
+            height: 120px;
+            margin: 40px 0 60px 0;
+            flex-shrink: 0;
+        }
+
+        .menu-logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-link {
+            display: block;
+            color: #000;
+            text-decoration: underline;
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 20px 0;
+            transition: opacity 0.2s;
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        .dropdown-link:hover {
+            opacity: 0.7;
+        }
+
+        .logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #000;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .icon:hover {
+            opacity: 0.7;
+        }
+
+        .icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        /* Left Panel - Contact Form */
+        .form-panel {
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #fff;
+        }
+
+        .page-number {
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            color: #000;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.3;
+            margin-bottom: 40px;
+            color: #000;
+        }
+
+        .page-description {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #fff;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .contact-form {
+            max-width: 500px;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            color: #000;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 0;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            background: transparent;
+            font-size: 16px;
+            font-weight: 300;
+            color: #000;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-bottom-color: #000;
+        }
+
+        .form-input::placeholder {
+            color: #999;
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 15px 0;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            background: transparent;
+            font-size: 16px;
+            font-weight: 300;
+            color: #000;
+            resize: vertical;
+            min-height: 100px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-bottom-color: #000;
+        }
+
+        .form-textarea::placeholder {
+            color: #999;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 15px 0;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            background: transparent;
+            font-size: 16px;
+            font-weight: 300;
+            color: #000;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-bottom-color: #000;
+        }
+
+        .form-select option {
+            background: #fff;
+            color: #000;
+        }
+
+        .submit-button {
+            background: transparent;
+            color: #000;
+            border: none;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 15px 0;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            border-bottom: 1px solid #000;
+            margin-top: 20px;
+            display: inline-block;
+            padding-bottom: 5px;
+            width: 100px;
+        }
+
+        .submit-button:hover {
+            opacity: 0.7;
+        }
+
+        .back-button {
+            color: #000;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding-bottom: 5px;
+            transition: opacity 0.2s;
+            display: inline-block;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        .back-button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #000;
+            transform: scaleX(0.25);
+            transform-origin: left;
+        }
+
+        .back-button:hover {
+            opacity: 0.7;
+        }
+
+        /* Modal styles */
+        .success-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .success-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .modal-message {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .modal-btn.primary {
+            background: #000;
+            color: white;
+        }
+
+        .modal-btn.primary:hover {
+            background: #333;
+        }
+
+        .modal-btn.secondary {
+            background: #fff;
+            color: #000;
+            border: 1px solid #000;
+        }
+
+        .modal-btn.secondary:hover {
+            background: #f8f9fa;
+        }
+
+        /* Right Panel - Image */
+        .image-panel {
+            position: relative;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .help-image {
+            width: 100%;
+            height: 100%;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .image-placeholder {
+            font-size: 60px;
+            font-weight: 100;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .form-panel {
+                padding: 40px 20px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .page-description {
+                font-size: 14px;
+            }
+
+            .form-input,
+            .form-textarea,
+            .form-select {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-panel {
+                padding: 30px 15px;
+            }
+
+            .page-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-links">
+            <div class="burger-menu" id="burgerMenu">
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <button class="menu-close-btn" onclick="closeMenu()">←</button>
+                <div class="menu-logo">
+                    <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 400 400">
+                        <defs>
+                            <style>
+                                .st0 {
+                                    fill: none;
+                                    stroke: #231f20;
+                                    stroke-miterlimit: 10;
+                                    stroke-width: 11px;
+                                }
+                            </style>
+                        </defs>
+                        <polygon class="st0" points="377.37 382.49 21.01 253.6 21.05 150.75 377.37 22.22 377.37 382.49"/>
+                        <polygon class="st0" points="219.63 382.49 20.86 277.13 20.89 126.59 219.63 21.79 219.63 382.49"/>
+                        <polygon class="st0" points="99.83 382.25 20.86 316.99 20.86 87.02 99.83 22.46 99.83 382.25"/>
+                    </svg>
+                </div>
+                <a href="index.html" class="dropdown-link">Главная</a>
+                <a href="catalog.html" class="dropdown-link">Каталог</a>
+                <a href="about.html" class="dropdown-link">О нас</a>
+                <a href="favorites.html" class="dropdown-link">Избранное</a>
+            </div>
+        </div>
+        <div class="logo">
+            <a href="index.html" style="color: inherit; text-decoration: none;">Центр кино™</a>
+        </div>
+        <div class="header-right">
+            <div class="header-icons">
+                <div class="icon" onclick="window.location.href='catalog.html'">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M14 14L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="icon" onclick="window.location.href='favorites.html'">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 17.5L8.5 16.1C4.5 12.3 2 9.7 2 6.5C2 3.9 4.1 1.8 6.7 1.8C7.8 1.8 8.9 2.2 9.7 3C10.5 2.2 11.6 1.8 12.7 1.8C15.3 1.8 17.4 3.9 17.4 6.5C17.4 9.7 14.9 12.3 10.9 16.1L10 17.5Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    </svg>
+                </div>
+                <div class="icon" onclick="window.location.href='cart.html'">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <rect x="3" y="4" width="14" height="12" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        <path d="M3 4L5 1H15L17 4" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="7" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        <circle cx="13" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    </svg>
+                </div>
+                <div class="icon" onclick="window.location.href='account.html'">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="6" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        <path d="M3 17C3 13.1 6.1 10 10 10C13.9 10 17 13.1 17 17" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Left Panel - Contact Form -->
+        <div class="form-panel">
+            <div class="page-number">03 ПОМОЩЬ</div>
+            
+            <h1 class="page-title">СВЯЖИТЕСЬ С НАМИ</h1>
+            
+            <div class="page-description">
+                Если у вас есть вопросы о наших товарах, доставке или возврате, 
+                пожалуйста, заполните форму ниже. Мы ответим вам в кратчайшие сроки.
+            </div>
+
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label class="form-label">Имя</label>
+                    <input type="text" name="name" class="form-input" placeholder="Ваше имя" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Фамилия</label>
+                    <input type="text" name="surname" class="form-input" placeholder="Ваша фамилия" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-input" placeholder="your.email@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Тема обращения</label>
+                    <select name="topic" class="form-select" required>
+                        <option value="">Выберите тему</option>
+                        <option value="Вопросы по заказу">Вопросы по заказу</option>
+                        <option value="Доставка">Доставка</option>
+                        <option value="Возврат товара">Возврат товара</option>
+                        <option value="Размеры и примерка">Размеры и примерка</option>
+                        <option value="Оплата">Оплата</option>
+                        <option value="Другое">Другое</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Сообщение</label>
+                    <textarea name="message" class="form-textarea" placeholder="Опишите ваш вопрос или проблему..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-button">ОТПРАВИТЬ</button>
+            </form>
+
+            <!-- Back Button -->
+            <a href="index.html" class="back-button">НАЗАД</a>
+        </div>
+
+        <!-- Right Panel - Image -->
+        <div class="image-panel">
+            <div class="help-image" id="help-hero-image">
+                <div class="image-placeholder">18</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="modal-content">
+            <h2 class="modal-title">СПАСИБО ЗА ОБРАЩЕНИЕ</h2>
+            <p class="modal-message">В ближайшее время с вами свяжется наш специалист!</p>
+            <div class="modal-buttons">
+                <button class="modal-btn primary" onclick="window.location.href='index.html'">
+                    Главное меню
+                </button>
+                <button class="modal-btn secondary" onclick="window.location.href='catalog.html'">
+                    Каталог
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Функция генерации номера обращения
+        function generateAppealNumber() {
+            const appeals = JSON.parse(localStorage.getItem('contactForms') || '[]');
+            const nextNumber = appeals.length + 1;
+            return 'APL-' + String(nextNumber).padStart(4, '0');
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Burger menu functionality
+            const burgerMenu = document.getElementById('burgerMenu');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+
+            if (burgerMenu && dropdownMenu) {
+                burgerMenu.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('active');
+                });
+
+                // Close menu function
+                window.closeMenu = function() {
+                    dropdownMenu.classList.remove('active');
+                };
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!burgerMenu.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                        dropdownMenu.classList.remove('active');
+                    }
+                });
+            }
+
+            // Form submission
+            const contactForm = document.getElementById('contactForm');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form data
+                    const name = this.querySelector('input[name="name"]').value;
+                    const surname = this.querySelector('input[name="surname"]').value;
+                    const email = this.querySelector('input[name="email"]').value;
+                    const topic = this.querySelector('select[name="topic"]').value;
+                    const message = this.querySelector('textarea[name="message"]').value;
+
+                    // Create contact data object
+                    const contactData = {
+                        id: Date.now(),
+                        appealNumber: generateAppealNumber(),
+                        name: name,
+                        surname: surname,
+                        email: email,
+                        topic: topic,
+                        message: message,
+                        timestamp: new Date().toISOString(),
+                        status: 'new'
+                    };
+                    
+                    // Save to localStorage
+                    const savedContacts = JSON.parse(localStorage.getItem('contactForms') || '[]');
+                    savedContacts.push(contactData);
+                    localStorage.setItem('contactForms', JSON.stringify(savedContacts));
+
+                    // Send Telegram notification for new appeal
+                    sendTelegramAppealNotification(contactData);
+                    
+                    // Show success modal
+                    const successModal = document.getElementById('successModal');
+                    successModal.classList.add('active');
+                    
+                    // Reset form
+                    this.reset();
+                });
+            }
+
+            // Загружаем данные страницы "Помощь" из localStorage (как в Banner 4)
+            const content = JSON.parse(localStorage.getItem('pageContent') || '{}');
+            const helpContent = content.help || {};
+            
+            console.log('🔍 Проверяем localStorage pageContent:', content);
+            console.log('🔍 Данные страницы "Помощь":', helpContent);
+            
+            // Проверяем данные hero секции
+            if (helpContent.hero) {
+                console.log('✅ Загружаем данные страницы "Помощь" hero из localStorage:', helpContent.hero);
+                updateHelp(helpContent.hero);
+                
+                // Принудительно обновляем изображения
+                console.log('🔄 Принудительное обновление изображений страницы "Помощь"...');
+                setTimeout(() => {
+                    updateHelp(helpContent.hero);
+                    console.log('✅ Изображения страницы "Помощь" обновлены');
+                }, 100);
+            } else {
+                console.log('❌ Данные страницы "Помощь" hero не найдены в localStorage');
+            }
+
+            // Автоматическое обновление данных страницы "Помощь" каждые 5 секунд
+            setInterval(function() {
+                const content = JSON.parse(localStorage.getItem('pageContent') || '{}');
+                const helpContent = content.help || {};
+                if (helpContent.hero) {
+                    console.log('🔄 Обновляем данные страницы "Помощь" из localStorage:', helpContent.hero);
+                    updateHelp(helpContent.hero);
+                }
+            }, 5000);
+        });
+
+        // ФУНКЦИЯ ДЛЯ ОБНОВЛЕНИЯ СТРАНИЦЫ "ПОМОЩЬ" ИЗ АДМИН ПАНЕЛИ
+        function updateHelp(helpData) {
+            console.log('🔄 Обновляем страницу "Помощь":', helpData);
+            
+            // Обновляем изображение
+            const imageElement = document.getElementById('help-hero-image');
+            if (imageElement) {
+                // Очищаем контейнер
+                imageElement.innerHTML = '';
+                
+                if (helpData && helpData.image) {
+                    console.log('✅ Загружаем изображение "Помощь":', helpData.image.substring(0, 50) + '...');
+                    const img = document.createElement('img');
+                    img.src = helpData.image;
+                    img.style.width = '100%';
+                    img.style.height = '100%';
+                    img.style.objectFit = 'cover';
+                    img.style.borderRadius = '8px';
+                    imageElement.appendChild(img);
+                } else {
+                    console.log('❌ Нет изображения для "Помощь", показываем placeholder');
+                    // Восстанавливаем placeholder если нет изображения
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'image-placeholder';
+                    placeholder.textContent = '18';
+                    imageElement.appendChild(placeholder);
+                }
+            } else {
+                console.log('❌ Элемент help-hero-image не найден');
+            }
+        }
+    </script>
+    <script src="statistics.js"></script>
+    
+    <script>
+        // ФУНКЦИЯ ОТПРАВКИ УВЕДОМЛЕНИЙ В TELEGRAM ДЛЯ ОБРАЩЕНИЙ
+        function sendTelegramAppealNotification(appeal) {
+            const botToken = '8346058484:AAHE3sDqceVAD3vHfc6uRbEGyhShDGLWi7s';
+            const chatId = '-1002882073917';
+            
+            const message = `📝 НОВОЕ ОБРАЩЕНИЕ #${appeal.appealNumber}
+
+👤 Информация о пользователе:
+• Имя: ${appeal.name}
+• Фамилия: ${appeal.surname}
+• Email: ${appeal.email}
+
+📋 Детали обращения:
+• Тема: ${appeal.topic}
+• Сообщение: ${appeal.message}
+
+📅 Дата: ${new Date(appeal.timestamp).toLocaleString('ru-RU')}
+
+🔗 Ссылка на админ панель: ${window.location.origin}/admin.html`;
+
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+            
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message,
+                    parse_mode: 'HTML'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('✅ Уведомление об обращении отправлено в Telegram:', data);
+            })
+            .catch(error => {
+                console.error('❌ Ошибка отправки уведомления в Telegram:', error);
+            });
+        }
+    </script>
+</body>
+</html> 

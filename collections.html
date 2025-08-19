@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Центр кино тм - Главная</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 60px;
+        }
+
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: opacity 0.2s;
+        }
+
+        .nav-link:hover {
+            opacity: 0.7;
+        }
+
+        .logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-tm {
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .burger-menu {
+            width: 20px;
+            height: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .burger-menu:hover {
+            opacity: 0.7;
+        }
+
+        .burger-line {
+            width: 100%;
+            height: 1px;
+            background: #fff;
+            transition: all 0.3s;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .icon:hover {
+            opacity: 0.7;
+        }
+
+        .icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        /* Left Panel - Text Content */
+        .text-panel {
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .item-number {
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            color: #fff;
+        }
+
+        .product-title {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            line-height: 1.3;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .product-description {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #fff;
+            margin-bottom: 50px;
+            max-width: 500px;
+        }
+
+        /* Navigation Lines */
+        .nav-lines {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .line-short {
+            width: 60px;
+            height: 1px;
+            background: #fff;
+        }
+
+        .line-long {
+            width: 120px;
+            height: 1px;
+            background: #fff;
+        }
+
+        .nav-arrows {
+            display: flex;
+            gap: 20px;
+            margin-left: 20px;
+        }
+
+        .nav-arrow {
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            font-weight: 300;
+        }
+
+        .nav-arrow:hover {
+            opacity: 0.7;
+        }
+
+        /* Right Panel - Image */
+        .image-panel {
+            position: relative;
+            background: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            background: #f8f8f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .image-number {
+            font-size: 120px;
+            font-weight: 100;
+            color: #d0d0d0;
+        }
+
+        /* Call to Action */
+        .cta-button {
+            position: absolute;
+            bottom: 60px;
+            right: 60px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #fff;
+            padding-bottom: 5px;
+            transition: opacity 0.2s;
+        }
+
+        .cta-button:hover {
+            opacity: 0.7;
+        }
+
+        /* Additional Content for Scrolling */
+        .additional-content {
+            padding: 80px 40px;
+            background: #fff;
+            color: #000;
+            margin-bottom: 40px;
+        }
+
+        .content-section {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .product-card {
+            background: #fff;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .product-card:hover {
+            border-color: #000;
+        }
+
+        .product-image-small {
+            width: 100%;
+            height: 300px;
+            background: #f8f8f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .product-number-small {
+            font-size: 40px;
+            font-weight: 100;
+            color: #d0d0d0;
+        }
+
+        .product-info {
+            padding: 0 10px 20px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 300;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .product-price {
+            font-size: 16px;
+            color: #000;
+            font-weight: 300;
+        }
+
+        .newsletter-section {
+            padding: 80px 40px;
+            background: #fff;
+            color: #000;
+            text-align: center;
+        }
+
+        .newsletter-content {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .newsletter p {
+            margin-bottom: 40px;
+            color: #666;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            line-height: 1.6;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #333;
+            background: transparent;
+            color: #000;
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        .newsletter-input::placeholder {
+            color: #999;
+        }
+
+        .newsletter-button {
+            background: transparent;
+            color: #000;
+            padding: 15px 25px;
+            border: 1px solid #000;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        .newsletter-button:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        .footer {
+            background: #f8f8f8;
+            padding: 60px 40px;
+            color: #000;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            align-items: center;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .footer-logo-svg {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+        }
+
+        .footer-logo-svg svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .footer-brand-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .footer-copyright {
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .footer-logo {
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .footer-copyright {
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        .footer-section h3 {
+            font-size: 14px;
+            margin-bottom: 20px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .footer-section a {
+            display: block;
+            color: #666;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: color 0.2s;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-section a:hover {
+            color: #000;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .nav-links {
+                gap: 30px;
+            }
+
+            .text-panel {
+                padding: 40px 20px;
+            }
+
+            .product-title {
+                font-size: 20px;
+            }
+
+            .cta-button {
+                bottom: 40px;
+                right: 40px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-logo-center {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-links">
+            <a href="#" class="nav-link">Бренд</a>
+        </div>
+        <div class="logo">
+            Центр кино <span class="logo-tm">тм</span>
+        </div>
+        <div class="header-right">
+            <div class="burger-menu">
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+            </div>
+                            <div class="header-icons">
+                    <div class="icon" onclick="window.location.href='catalog.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M14 14L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='favorites.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M10 17.5L8.5 16.1C4.5 12.3 2 9.7 2 6.5C2 3.9 4.1 1.8 6.7 1.8C7.8 1.8 8.9 2.2 9.7 3C10.5 2.2 11.6 1.8 12.7 1.8C15.3 1.8 17.4 3.9 17.4 6.5C17.4 9.7 14.9 12.3 10.9 16.1L10 17.5Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='cart.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <rect x="3" y="4" width="14" height="12" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <path d="M3 4L5 1H15L17 4" stroke="currentColor" stroke-width="1.5"/>
+                            <circle cx="7" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <circle cx="13" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='account.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="6" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <path d="M3 17C3 13.1 6.1 10 10 10C13.9 10 17 13.1 17 17" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Left Panel - Text Content -->
+        <div class="text-panel">
+            <div class="item-number">001</div>
+            
+            <h1 class="product-title">Осень-Зима '025-'026: Легкая куртка из нейлона</h1>
+            
+            <p class="product-description">
+                Актер Исаак Хейл демонстрирует Q100008 - легкую куртку с капюшоном из высокопрочного нейлона. 
+                Полупрозрачная ткань имеет двойной слой в отдельных областях для улучшения геометрии изделия.
+            </p>
+
+            <!-- Navigation Lines -->
+            <div class="nav-lines">
+                <div class="line-short"></div>
+                <div class="line-long"></div>
+                <div class="nav-arrows">
+                    <span class="nav-arrow">‹</span>
+                    <span class="nav-arrow">›</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel - Image -->
+        <div class="image-panel">
+            <div class="product-image">
+                <div class="image-number">1</div>
+            </div>
+            
+            <!-- Call to Action -->
+            <a href="#" class="cta-button">Смотреть новинки</a>
+        </div>
+    </div>
+
+    <!-- Additional Content for Scrolling -->
+    <section class="additional-content">
+        <div class="content-section" data-section="new-arrivals">
+            <h2 class="section-title">Новые поступления</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image-small">
+                        <div class="product-number-small">2</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">100008 RIPSTOP LIGHT HT NYLON</h3>
+                        <p class="product-price">45,000 ₽</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image-small">
+                        <div class="product-number-small">3</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">2100025 COMBED ORGANIC COTTON JERSEY</h3>
+                        <p class="product-price">12,000 ₽</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image-small">
+                        <div class="product-number-small">4</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">L100004 RIPSTOP LIGHT HT NYLON</h3>
+                        <p class="product-price">28,000 ₽</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image-small">
+                        <div class="product-number-small">5</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">1200003 SUPIMA® COTTON TWILL STRETCH-TC</h3>
+                        <p class="product-price">22,000 ₽</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="newsletter-content">
+            <h2>Подпишитесь на новости</h2>
+            <p>Получайте первыми информацию о новых коллекциях и специальных предложениях</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Ваш email" class="newsletter-input" required>
+                <button type="submit" class="newsletter-button">Подписаться</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Магазин</h3>
+                <a href="#">Новинки</a>
+                <a href="#">Sale</a>
+                <a href="#">Коллекции</a>
+            </div>
+            <div class="footer-section">
+                <h3>Помощь</h3>
+                <a href="#">Доставка</a>
+                <a href="#">Возврат</a>
+                <a href="#">Размеры</a>
+                <a href="#">Контакты</a>
+            </div>
+            <div class="footer-brand">
+                <div class="footer-logo-svg">
+                    <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 400 400">
+                        <defs>
+                            <style>
+                                .st0 {
+                                    fill: none;
+                                    stroke: #231f20;
+                                    stroke-miterlimit: 10;
+                                    stroke-width: 11px;
+                                }
+                            </style>
+                        </defs>
+                        <polygon class="st0" points="377.37 382.49 21.01 253.6 21.05 150.75 377.37 22.22 377.37 382.49"/>
+                        <polygon class="st0" points="219.63 382.49 20.86 277.13 20.89 126.59 219.63 21.79 219.63 382.49"/>
+                        <polygon class="st0" points="99.83 382.25 20.86 316.99 20.86 87.02 99.83 22.46 99.83 382.25"/>
+                    </svg>
+                </div>
+                <div class="footer-brand-text">
+                    <div class="footer-copyright">Центр кино™ © 2025, ООО "Центр Кино". Все права защищены.</div>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>О компании</h3>
+                <a href="#">О нас</a>
+                <a href="#">Карьера</a>
+                <a href="#">Пресс-центр</a>
+            </div>
+            <div class="footer-section">
+                <h3>Правовая информация</h3>
+                <a href="terms-of-sale.html">Условия использования</a>
+                <a href="privacy-policy.html">Политика конфиденциальности</a>
+                <a href="return-policy.html">Политика возврата</a>
+                <a href="#">Политика cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Простая навигация между слайдами
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = [
+                {
+                    number: '001',
+                    title: 'Осень-Зима \'025-\'026: Легкая куртка из нейлона',
+                    description: 'Актер Исаак Хейл демонстрирует Q100008 - легкую куртку с капюшоном из высокопрочного нейлона. Полупрозрачная ткань имеет двойной слой в отдельных областях для улучшения геометрии изделия.',
+                    imageNumber: '1'
+                },
+                {
+                    number: '002',
+                    title: 'Весна-Лето \'026: Футболка из хлопка',
+                    description: 'Классическая футболка из 100% хлопка с минималистичным дизайном. Идеально подходит для повседневной носки.',
+                    imageNumber: '2'
+                },
+                {
+                    number: '003',
+                    title: 'Демисезон: Джинсы премиум качества',
+                    description: 'Джинсы из денима премиум качества с современным кроем. Сочетают в себе комфорт и стиль.',
+                    imageNumber: '3'
+                }
+            ];
+
+            let currentSlide = 0;
+            const itemNumber = document.querySelector('.item-number');
+            const productTitle = document.querySelector('.product-title');
+            const productDescription = document.querySelector('.product-description');
+            const imageNumber = document.querySelector('.image-number');
+            const arrows = document.querySelectorAll('.nav-arrow');
+
+            function updateSlide() {
+                const slide = slides[currentSlide];
+                itemNumber.textContent = slide.number;
+                productTitle.textContent = slide.title;
+                productDescription.textContent = slide.description;
+                imageNumber.textContent = slide.imageNumber;
+            }
+
+            arrows[0].addEventListener('click', function() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                updateSlide();
+            });
+
+            arrows[1].addEventListener('click', function() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                updateSlide();
+            });
+
+            // Обработка формы подписки
+            const newsletterForm = document.querySelector('.newsletter-form');
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                alert('Спасибо за подписку! Мы отправим вам письмо на ' + email);
+                this.reset();
+            });
+        });
+    </script>
+</body>
+</html> 

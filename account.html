@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicoin/fovicoin.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="favicoin/fovicoin.svg">
+    <title>Центр кино™ - Аккаунт</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Local IBM Plex Mono font faces */
+        @font-face { font-family: 'IBM Plex Mono'; src: url('шрифт/IBMPlexMono-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; font-display: swap; }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: #fff;
+            color: #000;
+            line-height: 1.4;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links {
+            position: relative;
+        }
+
+        .logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #000;
+        }
+
+        .burger-menu {
+            width: 20px;
+            height: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .burger-menu:hover {
+            opacity: 0.7;
+        }
+
+        .burger-line {
+            width: 100%;
+            height: 1px;
+            background: #000;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #fff;
+            padding: 100px 40px 40px 40px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        
+        .menu-close-btn {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #000;
+            padding: 10px;
+            transition: opacity 0.2s;
+        }
+        
+        .menu-close-btn:hover {
+            opacity: 0.7;
+        }
+
+        .menu-logo {
+            width: 120px;
+            height: 120px;
+            margin: 40px 0 60px 0;
+            flex-shrink: 0;
+        }
+
+        .menu-logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-link {
+            display: block;
+            color: #000;
+            text-decoration: underline;
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 20px 0;
+            transition: opacity 0.2s;
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        .dropdown-link:hover {
+            opacity: 0.7;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .icon:hover {
+            opacity: 0.7;
+        }
+
+        .icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 60px;
+            padding: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-weight: 300;
+        }
+
+        /* Auth Forms */
+        .auth-container {
+            background: #f8f8f8;
+            padding: 40px;
+            border-radius: 4px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 15px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #666;
+        }
+
+        .auth-tab.active {
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+
+        .auth-tab:hover {
+            color: #000;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            color: #000;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            background: #fff;
+            font-size: 14px;
+            font-weight: 300;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #000;
+        }
+
+        .form-error {
+            color: #d32f2f;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: #000;
+            color: #fff;
+            border: none;
+            font-size: 16px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background: #333;
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .form-footer a {
+            color: #000;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* User Dashboard */
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .user-info {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+
+        .user-name {
+            font-size: 24px;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .user-email {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .logout-btn {
+            background: none;
+            border: 1px solid #000;
+            color: #000;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        .navigation-links {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: #000;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            transition: opacity 0.2s;
+        }
+
+        .nav-link:hover {
+            opacity: 0.7;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #000;
+        }
+
+        .dashboard-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .orders-container {
+            background: #f8f8f8;
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .profile-form {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+
+        .profile-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .profile-form textarea.form-input {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .profile-info {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .profile-info h4 {
+            font-size: 18px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            padding: 10px;
+            background: #fff;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            min-width: 0;
+        }
+
+        .info-item strong {
+            font-weight: 400;
+            color: #000;
+            display: inline-block;
+            min-width: 80px;
+        }
+
+        .info-item span {
+            color: #666;
+            margin-left: 5px;
+            word-break: break-word;
+            display: inline-block;
+            max-width: calc(100% - 85px);
+            vertical-align: top;
+        }
+
+        .edit-btn {
+            padding: 10px 20px;
+            background: #000;
+            color: #fff;
+            border: none;
+            font-size: 14px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .edit-btn:hover {
+            background: #333;
+        }
+
+        .order-date {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .order-status {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 8px;
+            border-radius: 2px;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-shipped {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-delivered {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .order-total {
+            font-size: 18px;
+            font-weight: 300;
+            margin-top: 10px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+
+            .auth-container {
+                padding: 20px;
+            }
+
+            .auth-tabs {
+                flex-direction: column;
+            }
+
+            .auth-tab {
+                text-align: center;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .info-item {
+                padding: 8px;
+            }
+            
+            .info-item strong {
+                min-width: 70px;
+                font-size: 14px;
+            }
+            
+            .info-item span {
+                max-width: calc(100% - 75px);
+                font-size: 14px;
+            }
+
+            .profile-form {
+                padding: 20px;
+            }
+
+                         .profile-info {
+                 padding: 20px;
+             }
+
+             .navigation-links {
+                 flex-direction: column;
+                 gap: 15px;
+             }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-links">
+            <div class="burger-menu" id="burgerMenu">
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <button class="menu-close-btn" onclick="closeMenu()">←</button>
+                <div class="menu-logo">
+                    <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 400 400">
+                        <defs>
+                            <style>
+                                .st0 {
+                                    fill: none;
+                                    stroke: #231f20;
+                                    stroke-miterlimit: 10;
+                                    stroke-width: 11px;
+                                }
+                            </style>
+                        </defs>
+                        <polygon class="st0" points="377.37 382.49 21.01 253.6 21.05 150.75 377.37 22.22 377.37 382.49"/>
+                        <polygon class="st0" points="219.63 382.49 20.86 277.13 20.89 126.59 219.63 21.79 219.63 382.49"/>
+                        <polygon class="st0" points="99.83 382.25 20.86 316.99 20.86 87.02 99.83 22.46 99.83 382.25"/>
+                    </svg>
+                </div>
+                <a href="index.html" class="dropdown-link">Главная</a>
+                <a href="about.html" class="dropdown-link">О нас</a>
+                <a href="catalog.html" class="dropdown-link">Каталог</a>
+                <a href="help.html" class="dropdown-link">Помощь</a>
+                <a href="favorites.html" class="dropdown-link">Избранное</a>
+                <a href="orders.html" class="dropdown-link">Мои заказы</a>
+            </div>
+        </div>
+                 <div class="logo">
+             <a href="index.html" style="color: inherit; text-decoration: none;">Центр кино™</a>
+         </div>
+        <div class="header-right">
+                            <div class="header-icons">
+                    <div class="icon" onclick="window.location.href='catalog.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M14 14L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='favorites.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M10 17.5L8.5 16.1C4.5 12.3 2 9.7 2 6.5C2 3.9 4.1 1.8 6.7 1.8C7.8 1.8 8.9 2.2 9.7 3C10.5 2.2 11.6 1.8 12.7 1.8C15.3 1.8 17.4 3.9 17.4 6.5C17.4 9.7 14.9 12.3 10.9 16.1L10 17.5Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='cart.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <rect x="3" y="4" width="14" height="12" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <path d="M3 4L5 1H15L17 4" stroke="currentColor" stroke-width="1.5"/>
+                            <circle cx="7" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <circle cx="13" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='account.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="6" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <path d="M3 17C3 13.1 6.1 10 10 10C13.9 10 17 13.1 17 17" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Аккаунт</h1>
+            <p class="page-subtitle" id="pageSubtitle">Войдите в аккаунт или зарегистрируйтесь</p>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage"></div>
+
+        <!-- Auth Forms -->
+        <div class="auth-container" id="authContainer">
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Вход</button>
+                <button class="auth-tab" data-tab="register">Регистрация</button>
+            </div>
+
+            <!-- Login Form -->
+            <form class="auth-form active" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email или логин</label>
+                    <input type="text" class="form-input" id="loginEmail" placeholder="email@example.com или логин" required>
+                    <div class="form-error" id="loginEmailError">Введите корректный email</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Пароль</label>
+                    <input type="password" class="form-input" id="loginPassword" required>
+                    <div class="form-error" id="loginPasswordError">Введите пароль</div>
+                </div>
+                <button type="submit" class="submit-btn">Войти</button>
+                <div class="form-footer">
+                    Нет аккаунта? <a onclick="switchTab('register')">Зарегистрироваться</a>
+                </div>
+            </form>
+
+            <!-- Register Form -->
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label class="form-label">Имя</label>
+                    <input type="text" class="form-input" id="registerName" required>
+                    <div class="form-error" id="registerNameError">Введите имя</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="registerEmail" required>
+                    <div class="form-error" id="registerEmailError">Введите корректный email</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Пароль</label>
+                    <input type="password" class="form-input" id="registerPassword" required>
+                    <div class="form-error" id="registerPasswordError">Пароль должен содержать минимум 6 символов</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Подтвердите пароль</label>
+                    <input type="password" class="form-input" id="registerPasswordConfirm" required>
+                    <div class="form-error" id="registerPasswordConfirmError">Пароли не совпадают</div>
+                </div>
+                <button type="submit" class="submit-btn">Зарегистрироваться</button>
+                <div class="form-footer">
+                    Уже есть аккаунт? <a onclick="switchTab('login')">Войти</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- User Dashboard -->
+        <div class="dashboard" id="dashboard">
+            <div class="dashboard-section">
+                <h3 class="section-title">Настройки профиля</h3>
+                <form class="profile-form" id="profileForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Фамилия</label>
+                            <input type="text" class="form-input" id="lastName" placeholder="Введите фамилию">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Имя</label>
+                            <input type="text" class="form-input" id="firstName" placeholder="Введите имя">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Отчество</label>
+                            <input type="text" class="form-input" id="middleName" placeholder="Введите отчество">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Пол</label>
+                            <select class="form-input" id="gender">
+                                <option value="">Выберите пол</option>
+                                <option value="male">Мужской</option>
+                                <option value="female">Женский</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Индекс</label>
+                            <input type="text" class="form-input" id="postalCode" placeholder="Введите индекс">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Страна</label>
+                            <input type="text" class="form-input" id="country" placeholder="Введите страну">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Город</label>
+                            <input type="text" class="form-input" id="city" placeholder="Введите город">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Улица</label>
+                            <input type="text" class="form-input" id="street" placeholder="Введите улицу">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Дом</label>
+                            <input type="text" class="form-input" id="house" placeholder="Введите номер дома">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Квартира</label>
+                            <input type="text" class="form-input" id="apartment" placeholder="Введите номер квартиры">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Номер телефона</label>
+                            <input type="tel" class="form-input" id="phone" placeholder="+7 (999) 123-45-67">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" id="profileEmail" placeholder="email@example.com">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Ссылка на мессенджер</label>
+                        <input type="url" class="form-input" id="messenger" placeholder="https://t.me/username или https://wa.me/phone">
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Сохранить настройки</button>
+                </form>
+                
+                <div class="profile-info" id="profileInfo" style="display: none;">
+                    <h4>Ваши данные:</h4>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>ФИО:</strong> <span id="displayFullName"></span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Пол:</strong> <span id="displayGender"></span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Адрес:</strong> <span id="displayAddress"></span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Телефон:</strong> <span id="displayPhone"></span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Email:</strong> <span id="displayEmail"></span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Мессенджер:</strong> <span id="displayMessenger"></span>
+                        </div>
+                    </div>
+                    <button class="edit-btn" onclick="editProfile()">Редактировать</button>
+                </div>
+            </div>
+
+            <div class="dashboard-section">
+                <div class="user-info">
+                    <h2 class="user-name" id="userName"></h2>
+                    <p class="user-email" id="userEmail"></p>
+                                         <button class="logout-btn" onclick="logout()">Выйти</button>
+                     
+                     <div class="navigation-links">
+                         <a href="index.html" class="nav-link">Главное меню</a>
+                         <a href="cart.html" class="nav-link">Корзина</a>
+                         <a href="orders.html" class="nav-link">Мои заказы</a>
+                     </div>
+            
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auth functionality
+        class Auth {
+            constructor() {
+                this.currentUser = JSON.parse(localStorage.getItem('user'));
+                this.users = JSON.parse(localStorage.getItem('users')) || [];
+                
+                // Добавляем предустановленных пользователей, если их нет
+                this.initializeDefaultUsers();
+                
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.checkAuthState();
+            }
+
+            initializeDefaultUsers() {
+                // Предустановленные пользователи для админ панели
+                const defaultUsers = [
+                    {
+                        id: 1,
+                        name: 'Центр Кино',
+                        email: 'centerkino',
+                        password: 'kinocenter2025',
+                        createdAt: '2024-01-01T00:00:00.000Z',
+                        lastLogin: null,
+                        orders: [],
+                        profile: {}
+                    },
+                    {
+                        id: 2,
+                        name: 'Владимир Фирман',
+                        email: 'vladimir_firman',
+                        password: 'vova_krut',
+                        createdAt: '2024-01-01T00:00:00.000Z',
+                        lastLogin: null,
+                        orders: [],
+                        profile: {}
+                    },
+                    {
+                        id: 3,
+                        name: 'Админ Кино',
+                        email: 'admin_kino',
+                        password: 'admin_ory',
+                        createdAt: '2024-01-01T00:00:00.000Z',
+                        lastLogin: null,
+                        orders: [],
+                        profile: {}
+                    }
+                ];
+
+                // Проверяем, есть ли уже эти пользователи
+                let needsUpdate = false;
+                defaultUsers.forEach(defaultUser => {
+                    const existingUser = this.users.find(u => u.email.toLowerCase() === defaultUser.email.toLowerCase());
+                    if (!existingUser) {
+                        this.users.push(defaultUser);
+                        needsUpdate = true;
+                    }
+                });
+
+                // Сохраняем обновленный список пользователей
+                if (needsUpdate) {
+                    localStorage.setItem('users', JSON.stringify(this.users));
+                }
+                
+                // Обновляем this.users из localStorage для уверенности
+                this.users = JSON.parse(localStorage.getItem('users')) || [];
+            }
+
+            setupEventListeners() {
+                // Tab switching
+                document.querySelectorAll('.auth-tab').forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        this.switchTab(e.target.dataset.tab);
+                    });
+                });
+
+                // Form submissions
+                document.getElementById('loginForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.login();
+                });
+
+                document.getElementById('registerForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.register();
+                });
+
+                // Profile form submission
+                document.getElementById('profileForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.saveProfileData();
+                });
+
+                // Burger menu functionality
+                const burgerMenu = document.getElementById('burgerMenu');
+                const dropdownMenu = document.getElementById('dropdownMenu');
+
+                burgerMenu.addEventListener('click', function() {
+                    dropdownMenu.classList.toggle('active');
+                });
+
+                // Close menu function
+                window.closeMenu = function() {
+                    dropdownMenu.classList.remove('active');
+                };
+
+                document.addEventListener('click', function(event) {
+                    if (!burgerMenu.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                        dropdownMenu.classList.remove('active');
+                    }
+                });
+            }
+
+            switchTab(tabName) {
+                // Update tabs
+                document.querySelectorAll('.auth-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+                // Update forms
+                document.querySelectorAll('.auth-form').forEach(form => {
+                    form.classList.remove('active');
+                });
+                document.getElementById(`${tabName}Form`).classList.add('active');
+            }
+
+            validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+
+            validatePassword(password) {
+                return password.length >= 6;
+            }
+
+            showError(elementId, message) {
+                const errorElement = document.getElementById(elementId);
+                errorElement.textContent = message;
+                errorElement.classList.add('show');
+            }
+
+            hideError(elementId) {
+                const errorElement = document.getElementById(elementId);
+                errorElement.classList.remove('show');
+            }
+
+            showSuccess(message) {
+                const successElement = document.getElementById('successMessage');
+                successElement.textContent = message;
+                successElement.classList.add('show');
+                setTimeout(() => {
+                    successElement.classList.remove('show');
+                }, 3000);
+            }
+
+            login() {
+                const email = document.getElementById('loginEmail').value.trim();
+                const password = document.getElementById('loginPassword').value;
+
+                // Reset errors
+                this.hideError('loginEmailError');
+                this.hideError('loginPasswordError');
+
+                // Validate
+                if (!email) {
+                    this.showError('loginEmailError', 'Введите email или логин');
+                    return;
+                }
+
+                // Проверяем, является ли это предустановленным пользователем (без @)
+                const isDefaultUser = ['centerkino', 'vladimir_firman', 'admin_kino'].includes(email);
+                
+                if (!isDefaultUser && !this.validateEmail(email)) {
+                    this.showError('loginEmailError', 'Введите корректный email');
+                    return;
+                }
+
+                if (!password) {
+                    this.showError('loginPasswordError', 'Введите пароль');
+                    return;
+                }
+
+                // Принудительно обновляем список пользователей из localStorage перед проверкой
+                this.users = JSON.parse(localStorage.getItem('users')) || [];
+                const user = this.users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+                
+                if (!user) {
+                    this.showError('loginPasswordError', 'Неверный email или пароль');
+                    return;
+                }
+
+                // Login successful
+                this.currentUser = user;
+                localStorage.setItem('user', JSON.stringify(user));
+                
+                // Update user's last login
+                const userIndex = this.users.findIndex(u => u.id === user.id);
+                if (userIndex !== -1) {
+                    this.users[userIndex].lastLogin = new Date().toISOString();
+                    localStorage.setItem('users', JSON.stringify(this.users));
+                }
+                
+
+                this.showSuccess('Вход выполнен успешно!');
+                this.checkAuthState();
+            }
+
+            register() {
+                const name = document.getElementById('registerName').value.trim();
+                const email = document.getElementById('registerEmail').value.trim();
+                const password = document.getElementById('registerPassword').value;
+                const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
+
+                // Reset errors
+                this.hideError('registerNameError');
+                this.hideError('registerEmailError');
+                this.hideError('registerPasswordError');
+                this.hideError('registerPasswordConfirmError');
+
+                // Validate
+                if (!name) {
+                    this.showError('registerNameError', 'Введите имя');
+                    return;
+                }
+
+                if (!email) {
+                    this.showError('registerEmailError', 'Введите email');
+                    return;
+                }
+
+                if (!this.validateEmail(email)) {
+                    this.showError('registerEmailError', 'Введите корректный email');
+                    return;
+                }
+
+                if (this.users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+                    this.showError('registerEmailError', 'Пользователь с таким email уже существует');
+                    return;
+                }
+
+                if (!this.validatePassword(password)) {
+                    this.showError('registerPasswordError', 'Пароль должен содержать минимум 6 символов');
+                    return;
+                }
+
+                if (password !== passwordConfirm) {
+                    this.showError('registerPasswordConfirmError', 'Пароли не совпадают');
+                    return;
+                }
+
+                // Create user
+                const newUser = {
+                    id: Date.now(),
+                    name: name,
+                    email: email,
+                    password: password,
+                    createdAt: new Date().toISOString(),
+                    lastLogin: new Date().toISOString(),
+                    orders: [],
+                    profile: {}
+                };
+
+                this.users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(this.users));
+
+                // Auto login
+                this.currentUser = newUser;
+                localStorage.setItem('user', JSON.stringify(newUser));
+                this.showSuccess('Регистрация выполнена успешно!');
+                this.checkAuthState();
+            }
+
+            logout() {
+                // Update user's last logout
+                if (this.currentUser) {
+                    const userIndex = this.users.findIndex(u => u.id === this.currentUser.id);
+                    if (userIndex !== -1) {
+                        this.users[userIndex].lastLogout = new Date().toISOString();
+                        localStorage.setItem('users', JSON.stringify(this.users));
+                    }
+                }
+                
+                this.currentUser = null;
+                localStorage.removeItem('user');
+                this.checkAuthState();
+                this.showSuccess('Выход выполнен успешно!');
+            }
+
+            checkAuthState() {
+                const authContainer = document.getElementById('authContainer');
+                const dashboard = document.getElementById('dashboard');
+                const pageSubtitle = document.getElementById('pageSubtitle');
+
+                if (this.currentUser) {
+                    authContainer.style.display = 'none';
+                    dashboard.classList.add('active');
+                    pageSubtitle.textContent = `Добро пожаловать, ${this.currentUser.name}`;
+                    this.renderDashboard();
+                } else {
+                    authContainer.style.display = 'block';
+                    dashboard.classList.remove('active');
+                    pageSubtitle.textContent = 'Войдите в аккаунт или зарегистрируйтесь';
+                }
+            }
+
+            renderDashboard() {
+                document.getElementById('userName').textContent = this.currentUser.name;
+                document.getElementById('userEmail').textContent = this.currentUser.email;
+
+                // Load profile data
+                this.loadProfileData();
+            }
+
+            loadProfileData() {
+                const profileData = JSON.parse(localStorage.getItem(`profile_${this.currentUser.id}`)) || {};
+                
+                // Fill form fields
+                document.getElementById('lastName').value = profileData.lastName || '';
+                document.getElementById('firstName').value = profileData.firstName || '';
+                document.getElementById('middleName').value = profileData.middleName || '';
+                document.getElementById('gender').value = profileData.gender || '';
+                document.getElementById('postalCode').value = profileData.postalCode || '';
+                document.getElementById('country').value = profileData.country || '';
+                document.getElementById('city').value = profileData.city || '';
+                document.getElementById('street').value = profileData.street || '';
+                document.getElementById('house').value = profileData.house || '';
+                document.getElementById('apartment').value = profileData.apartment || '';
+                document.getElementById('phone').value = profileData.phone || '';
+                document.getElementById('profileEmail').value = profileData.email || this.currentUser.email;
+                document.getElementById('messenger').value = profileData.messenger || '';
+
+                // Show profile info if data exists
+                if (profileData.lastName || profileData.firstName || profileData.city || profileData.phone) {
+                    this.showProfileInfo(profileData);
+                }
+            }
+
+            showProfileInfo(data) {
+                document.getElementById('profileForm').style.display = 'none';
+                document.getElementById('profileInfo').style.display = 'block';
+                
+                // Combine FIO
+                const fullName = [data.lastName, data.firstName, data.middleName].filter(Boolean).join(' ');
+                document.getElementById('displayFullName').textContent = fullName || 'Не указано';
+                
+                document.getElementById('displayGender').textContent = data.gender === 'male' ? 'Мужской' : data.gender === 'female' ? 'Женский' : 'Не указано';
+                
+                // Combine address
+                const addressParts = [data.postalCode, data.country, data.city, data.street, data.house, data.apartment].filter(Boolean);
+                const address = addressParts.length > 0 ? addressParts.join(', ') : 'Не указано';
+                document.getElementById('displayAddress').textContent = address;
+                
+                document.getElementById('displayPhone').textContent = data.phone || 'Не указано';
+                document.getElementById('displayEmail').textContent = data.email || this.currentUser.email;
+                document.getElementById('displayMessenger').textContent = data.messenger || 'Не указано';
+            }
+
+            saveProfileData() {
+                const profileData = {
+                    lastName: document.getElementById('lastName').value.trim(),
+                    firstName: document.getElementById('firstName').value.trim(),
+                    middleName: document.getElementById('middleName').value.trim(),
+                    gender: document.getElementById('gender').value,
+                    postalCode: document.getElementById('postalCode').value.trim(),
+                    country: document.getElementById('country').value.trim(),
+                    city: document.getElementById('city').value.trim(),
+                    street: document.getElementById('street').value.trim(),
+                    house: document.getElementById('house').value.trim(),
+                    apartment: document.getElementById('apartment').value.trim(),
+                    phone: document.getElementById('phone').value.trim(),
+                    email: document.getElementById('profileEmail').value.trim(),
+                    messenger: document.getElementById('messenger').value.trim(),
+                    updatedAt: new Date().toISOString()
+                };
+
+                // Save to user-specific storage
+                localStorage.setItem(`profile_${this.currentUser.id}`, JSON.stringify(profileData));
+                
+                // Update user data in users array
+                const userIndex = this.users.findIndex(u => u.id === this.currentUser.id);
+                if (userIndex !== -1) {
+                    this.users[userIndex].profile = profileData;
+                    this.users[userIndex].lastUpdated = new Date().toISOString();
+                    localStorage.setItem('users', JSON.stringify(this.users));
+                }
+                
+                // Update current user
+                this.currentUser.profile = profileData;
+                localStorage.setItem('user', JSON.stringify(this.currentUser));
+                
+                this.showProfileInfo(profileData);
+                this.showSuccess('Настройки профиля сохранены!');
+                
+                // Проверяем, был ли пользователь перенаправлен с корзины
+                const returnToCart = localStorage.getItem('returnToCartAfterProfile');
+                if (returnToCart === 'true') {
+                    localStorage.removeItem('returnToCartAfterProfile');
+                    setTimeout(() => {
+                        window.location.href = 'cart.html';
+                    }, 1500);
+                }
+            }
+
+            editProfile() {
+                document.getElementById('profileForm').style.display = 'block';
+                document.getElementById('profileInfo').style.display = 'none';
+            }
+
+            getStatusText(status) {
+                const statuses = {
+                    'pending': 'В обработке',
+                    'shipped': 'Отправлен',
+                    'delivered': 'Доставлен'
+                };
+                return statuses[status] || status;
+            }
+        }
+
+        // Initialize auth
+        const auth = new Auth();
+
+        // Global functions for onclick handlers
+        function switchTab(tabName) {
+            auth.switchTab(tabName);
+        }
+
+        function logout() {
+            auth.logout();
+        }
+
+        function editProfile() {
+            auth.editProfile();
+        }
+
+
+
+        
+    </script>
+    <script src="statistics.js"></script>
+</body>
+</html> 

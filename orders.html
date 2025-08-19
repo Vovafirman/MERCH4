@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicoin/fovicoin.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="favicoin/fovicoin.svg">
+    <title>Центр кино™ - Мои заказы</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Local IBM Plex Mono font faces */
+        @font-face { font-family: 'IBM Plex Mono'; src: url('шрифт/IBMPlexMono-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; font-display: swap; }
+
+        /* Force IBM Plex Mono everywhere */
+        html, body, input, button, select, textarea, a, span, div, p, h1, h2, h3, h4, h5, h6 {
+            font-family: 'IBM Plex Mono', monospace !important;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: #fff;
+            color: #000;
+            overflow-x: hidden;
+        }
+
+        /* Font imports */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: #fff;
+        }
+
+        .nav-links {
+            position: relative;
+        }
+
+        .burger-menu {
+            width: 20px;
+            height: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .burger-menu:hover {
+            opacity: 0.7;
+        }
+
+        .burger-line {
+            width: 100%;
+            height: 1px;
+            background: #000;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #fff;
+            padding: 100px 40px 40px 40px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        
+        .menu-close-btn {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #000;
+            padding: 10px;
+            transition: opacity 0.2s;
+        }
+        
+        .menu-close-btn:hover {
+            opacity: 0.7;
+        }
+
+        .menu-logo {
+            width: 120px;
+            height: 120px;
+            margin: 40px 0 60px 0;
+            flex-shrink: 0;
+        }
+
+        .menu-logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-link {
+            display: block;
+            color: #000;
+            text-decoration: underline;
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 20px 0;
+            transition: opacity 0.2s;
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        .dropdown-link:hover {
+            opacity: 0.7;
+        }
+
+        .logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #000;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .icon:hover {
+            opacity: 0.7;
+        }
+
+        .icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 40px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page-header {
+            margin-bottom: 60px;
+        }
+
+        .page-number {
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .page-description {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #666;
+            max-width: 600px;
+        }
+
+        /* Orders Container */
+        .orders-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .order-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            padding: 40px;
+            transition: all 0.3s;
+        }
+
+        .order-card:hover {
+            border-color: #000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .order-info {
+            flex: 1;
+        }
+
+        .order-number {
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            color: #000;
+        }
+
+        .order-date {
+            font-size: 14px;
+            font-weight: 300;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .order-total {
+            font-size: 16px;
+            font-weight: 400;
+            color: #000;
+        }
+
+        .order-status-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .order-status {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-align: center;
+            min-width: 120px;
+            color: white;
+        }
+
+        .tracking-btn {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-align: center;
+            min-width: 120px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .tracking-btn:hover {
+            background: #333;
+        }
+
+        /* Order Items */
+        .order-items {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 80px;
+            height: 100px;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .item-number {
+            font-size: 24px;
+            font-weight: 100;
+            color: white;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .item-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .item-price {
+            font-size: 16px;
+            font-weight: 400;
+            color: #000;
+            margin-top: 8px;
+        }
+
+        /* Empty State */
+        .empty-orders {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-orders h2 {
+            font-size: 24px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .empty-orders p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .start-shopping {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #000;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.2s;
+        }
+
+        .start-shopping:hover {
+            background: #333;
+        }
+
+        /* Back Button */
+        .back-button {
+            color: #000;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding-bottom: 5px;
+            transition: opacity 0.2s;
+            display: inline-block;
+            margin-top: 40px;
+            position: relative;
+            padding-left: 22px;
+        }
+        .back-button::before {
+            content: '←';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 16px;
+            line-height: 1;
+        }
+        .back-button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #000;
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .back-button:hover {
+            opacity: 0.7;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+            padding: 20px 0;
+        }
+
+        .pagination-btn {
+            padding: 8px 12px;
+            background: #000;
+            color: #fff;
+            border: 1px solid #000;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .pagination-btn:hover {
+            background: #333;
+        }
+
+        .pagination-btn.active {
+            background: #fff;
+            color: #000;
+        }
+
+        .pagination-btn:disabled {
+            background: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .order-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .order-item {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .item-image {
+                width: 100%;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .order-card {
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-links">
+            <div class="burger-menu" id="burgerMenu">
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <button class="menu-close-btn" onclick="closeMenu()">←</button>
+                <div class="menu-logo">
+                    <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 400 400">
+                        <defs>
+                            <style>
+                                .st0 {
+                                    fill: none;
+                                    stroke: #231f20;
+                                    stroke-miterlimit: 10;
+                                    stroke-width: 11px;
+                                }
+                            </style>
+                        </defs>
+                        <polygon class="st0" points="377.37 382.49 21.01 253.6 21.05 150.75 377.37 22.22 377.37 382.49"/>
+                        <polygon class="st0" points="219.63 382.49 20.86 277.13 20.89 126.59 219.63 21.79 219.63 382.49"/>
+                        <polygon class="st0" points="99.83 382.25 20.86 316.99 20.86 87.02 99.83 22.46 99.83 382.25"/>
+                    </svg>
+                </div>
+                <a href="index.html" class="dropdown-link">Главная</a>
+                <a href="catalog.html" class="dropdown-link">Каталог</a>
+                <a href="about.html" class="dropdown-link">О нас</a>
+                <a href="help.html" class="dropdown-link">Помощь</a>
+                <a href="favorites.html" class="dropdown-link">Избранное</a>
+                <a href="orders.html" class="dropdown-link">Мои заказы</a>
+            </div>
+        </div>
+        <div class="logo">
+            <a href="index.html" style="color: inherit; text-decoration: none;">Центр кино™</a>
+        </div>
+        <div class="header-right">
+            <div class="header-icons">
+                <div class="icon" onclick="window.location.href='catalog.html'">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M14 14L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="icon" onclick="window.location.href='favorites.html'">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 17.5L8.5 16.1C4.5 12.3 2 9.7 2 6.5C2 3.9 4.1 1.8 6.7 1.8C7.8 1.8 8.9 2.2 9.7 3C10.5 2.2 11.6 1.8 12.7 1.8C15.3 1.8 17.4 3.9 17.4 6.5C17.4 9.7 14.9 12.3 10.9 16.1L10 17.5Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    </svg>
+                </div>
+                <div class="icon" onclick="window.location.href='cart.html'">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <rect x="3" y="4" width="14" height="12" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        <path d="M3 4L5 1H15L17 4" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="7" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        <circle cx="13" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    </svg>
+                </div>
+                <div class="icon" onclick="window.location.href='account.html'">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="6" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        <path d="M3 17C3 13.1 6.1 10 10 10C13.9 10 17 13.1 17 17" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <div class="page-number">04 МОИ ЗАКАЗЫ</div>
+            <h1 class="page-title">ИСТОРИЯ ЗАКАЗОВ</h1>
+            <p class="page-description">Здесь вы можете просмотреть все ваши оплаченные заказы и их текущий статус</p>
+        </div>
+
+        <div class="orders-container" id="ordersContainer">
+            <!-- Orders will be loaded here -->
+        </div>
+        <div class="pagination" id="ordersPagination">
+            <!-- Pagination will be loaded here -->
+        </div>
+
+        <!-- Back Button -->
+        <a href="index.html" class="back-button">НАЗАД</a>
+    </div>
+
+    <script>
+        // Переменные для пагинации
+        let currentPage = 1;
+        const ordersPerPage = 6;
+
+        // Получение данных товара из localStorage
+        function getProductData(productId) {
+            // Сначала ищем в админ панели (ключи product_${id})
+            const productData = localStorage.getItem(`product_${productId}`);
+            if (productData) {
+                try {
+                    const product = JSON.parse(productData);
+                    return product;
+                } catch (error) {
+                    console.error('Ошибка при загрузке товара из админ панели:', error);
+                }
+            }
+            
+            // Если не найден в админ панели, ищем в старых данных
+            const oldProducts = JSON.parse(localStorage.getItem('products') || '[]');
+            const product = oldProducts.find(p => p.id === parseInt(productId));
+            
+            if (product) {
+                return product;
+            }
+            
+            // Возвращаем дефолтные данные, если товар не найден
+            return {
+                id: parseInt(productId),
+                name: 'Товар не найден',
+                category: 'Неизвестно',
+                price: 0,
+                images: []
+            };
+        }
+
+        function loadOrders() {
+            const ordersContainer = document.getElementById('ordersContainer');
+            const paginationContainer = document.getElementById('ordersPagination');
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const user = JSON.parse(localStorage.getItem('user'));
+            
+            // Filter orders for current user
+            let userOrders = orders.filter(order => order.userEmail === user.email);
+
+            // Показываем только реальные заказы пользователя
+
+            if (userOrders.length === 0) {
+                ordersContainer.innerHTML = `
+                    <div class="empty-orders">
+                        <h2>У вас пока нет заказов</h2>
+                        <p>Начните покупки, чтобы увидеть здесь свои заказы</p>
+                        <a href="catalog.html" class="start-shopping">Перейти к покупкам</a>
+                    </div>
+                `;
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            // Sort orders by date (newest first)
+            userOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            // Пагинация
+            const totalPages = Math.ceil(userOrders.length / ordersPerPage);
+            const startIndex = (currentPage - 1) * ordersPerPage;
+            const endIndex = startIndex + ordersPerPage;
+            const paginatedOrders = userOrders.slice(startIndex, endIndex);
+
+            ordersContainer.innerHTML = paginatedOrders.map(order => `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-info">
+                            <div class="order-number">Заказ #${order.orderNumber}</div>
+                            <div class="order-date">${formatDate(order.date)}</div>
+                            <div class="order-total">Итого: ${order.total.toLocaleString()} ₽</div>
+                        </div>
+                        <div class="order-status-section">
+                            <div class="order-status" style="background-color: ${getStatusColor(order.status)}">
+                                ${getStatusText(order.status)}
+                            </div>
+                            ${order.status === 'Отправлен' && order.trackingLink ? `
+                                <button class="tracking-btn" onclick="showTrackingModal('${order.trackingLink}', '${order.trackingNumber || ''}')">
+                                    Отследить заказ
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                    <div class="order-items">
+                        ${order.items.map(item => {
+                            // Получаем полные данные товара для отображения изображения
+                            const productData = getProductData(item.id);
+                            const productImage = productData.images && productData.images.length > 0 ? productData.images[0] : null;
+                            
+                            return `
+                            <div class="order-item">
+                                <div class="item-image">
+                                    ${productImage ? 
+                                        `<img src="${productImage}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">` :
+                                        `<div class="item-number">${item.id}</div>`
+                                    }
+                                </div>
+                                <div class="item-details">
+                                    <div class="item-name">${item.name}</div>
+                                    <div class="item-info">Размер: ${item.size}</div>
+                                    <div class="item-info">Цвет: ${item.color}</div>
+                                    <div class="item-info">Количество: ${item.quantity}</div>
+                                    <div class="item-price">${item.price.toLocaleString()} ₽</div>
+                                </div>
+                            </div>
+                        `;
+                        }).join('')}
+                    </div>
+                </div>
+            `).join('');
+
+            // Генерируем пагинацию
+            generatePagination(totalPages, currentPage);
+        }
+
+
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ru-RU', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function getStatusText(status) {
+            return status || 'Неизвестно';
+        }
+
+        function getStatusColor(status) {
+            const statusColors = {
+                'В сборке': '#ffc107',
+                'Отправлен': '#17a2b8',
+                'Доставлен': '#28a745'
+            };
+            return statusColors[status] || '#6c757d';
+        }
+
+        // Функция генерации пагинации
+        function generatePagination(totalPages, currentPage) {
+            const paginationContainer = document.getElementById('ordersPagination');
+            
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+            
+            // Кнопка "Предыдущая"
+            paginationHTML += `<button class="pagination-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>Предыдущая</button>`;
+            
+            // Номера страниц
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    paginationHTML += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    paginationHTML += `<span class="pagination-btn" style="cursor: default;">...</span>`;
+                }
+            }
+            
+            // Кнопка "Следующая"
+            paginationHTML += `<button class="pagination-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Следующая</button>`;
+            
+            paginationContainer.innerHTML = paginationHTML;
+        }
+
+        // Функция смены страницы
+        function changePage(page) {
+            currentPage = page;
+            loadOrders();
+        }
+
+
+
+        // Start status updates when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user) {
+                window.location.href = 'account.html';
+                return;
+            }
+
+            // Burger menu functionality
+            const burgerMenu = document.getElementById('burgerMenu');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+
+            burgerMenu.addEventListener('click', function() {
+                dropdownMenu.classList.toggle('active');
+            });
+
+            // Close menu function
+            window.closeMenu = function() {
+                dropdownMenu.classList.remove('active');
+            };
+
+            document.addEventListener('click', function(event) {
+                if (!burgerMenu.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.classList.remove('active');
+                }
+            });
+
+            // Load and display orders
+            loadOrders();
+        });
+
+        function showTrackingModal(trackingLink, trackingNumber) {
+            // Create modal HTML
+            const modalHTML = `
+                <div class="tracking-modal" id="trackingModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Отслеживание заказа</h2>
+                            <button class="close-btn" onclick="closeTrackingModal()">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            ${trackingNumber ? `<p><strong>Трек номер:</strong> ${trackingNumber}</p>` : ''}
+                            <p><strong>Ссылка для отслеживания:</strong></p>
+                            <a href="${trackingLink}" target="_blank" class="tracking-link">${trackingLink}</a>
+                        </div>
+                        <div class="modal-buttons">
+                            <button class="modal-btn primary" onclick="closeTrackingModal()">
+                                Закрыть
+                            </button>
+                            <button class="modal-btn secondary" onclick="window.open('${trackingLink}', '_blank')">
+                                Открыть ссылку
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Add modal to page
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+            // Add modal styles if not already present
+            if (!document.getElementById('trackingModalStyles')) {
+                const styles = document.createElement('style');
+                styles.id = 'trackingModalStyles';
+                styles.textContent = `
+                    .tracking-modal {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.8);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        z-index: 10000;
+                        animation: fadeIn 0.3s ease;
+                    }
+
+                    .tracking-modal .modal-content {
+                        background: white;
+                        padding: 40px;
+                        border-radius: 10px;
+                        text-align: center;
+                        max-width: 500px;
+                        width: 90%;
+                        animation: slideIn 0.3s ease;
+                    }
+
+                    .tracking-modal .modal-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 20px;
+                    }
+
+                    .tracking-modal .modal-header h2 {
+                        color: #000000;
+                        font-size: 24px;
+                        margin: 0;
+                    }
+
+                    .tracking-modal .close-btn {
+                        background: none;
+                        border: none;
+                        font-size: 28px;
+                        cursor: pointer;
+                        color: #666;
+                        padding: 0;
+                        width: 30px;
+                        height: 30px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: color 0.3s;
+                    }
+
+                    .tracking-modal .close-btn:hover {
+                        color: #000;
+                    }
+
+                    .tracking-modal .modal-body {
+                        margin-bottom: 30px;
+                        text-align: left;
+                    }
+
+                    .tracking-modal .modal-body p {
+                        margin: 10px 0;
+                        font-size: 16px;
+                        color: #000000;
+                    }
+
+                    .tracking-modal .tracking-link {
+                        display: block;
+                        color: #17a2b8;
+                        text-decoration: none;
+                        word-break: break-all;
+                        margin-top: 10px;
+                        padding: 10px;
+                        background: #f8f9fa;
+                        border-radius: 5px;
+                    }
+
+                    .tracking-modal .tracking-link:hover {
+                        text-decoration: underline;
+                    }
+
+                    .tracking-modal .modal-buttons {
+                        display: flex;
+                        gap: 15px;
+                        justify-content: center;
+                    }
+
+                    .tracking-modal .modal-btn {
+                        padding: 12px 24px;
+                        border: none;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        font-size: 16px;
+                        transition: all 0.3s;
+                        min-width: 120px;
+                    }
+
+                    .tracking-modal .modal-btn.primary {
+                        background: #000000;
+                        color: white;
+                    }
+
+                    .tracking-modal .modal-btn.primary:hover {
+                        background: #333333;
+                    }
+
+                    .tracking-modal .modal-btn.secondary {
+                        background: #ffffff;
+                        color: #000000;
+                        border: 1px solid #000000;
+                    }
+
+                    .tracking-modal .modal-btn.secondary:hover {
+                        background: #f8f9fa;
+                    }
+
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+
+                    @keyframes slideIn {
+                        from { transform: translateY(-50px); opacity: 0; }
+                        to { transform: translateY(0); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(styles);
+            }
+
+            // Добавляем обработчик клика вне модального окна для закрытия
+            document.getElementById('trackingModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeTrackingModal();
+                }
+            });
+        }
+
+        // Функция закрытия модального окна отслеживания
+        function closeTrackingModal() {
+            const modal = document.getElementById('trackingModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+    </script>
+    <script src="statistics.js"></script>
+</body>
+</html> 

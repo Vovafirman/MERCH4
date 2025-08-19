@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicoin/fovicoin.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="favicoin/fovicoin.svg">
+    <title>Центр кино™ - Избранное</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Local IBM Plex Mono font faces */
+        @font-face { font-family: 'IBM Plex Mono'; src: url('шрифт/IBMPlexMono-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; font-display: swap; }
+
+        /* Force IBM Plex Mono everywhere */
+        html, body, input, button, select, textarea, a, span, div, p, h1, h2, h3, h4, h5, h6 {
+            font-family: 'IBM Plex Mono', monospace !important;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: #fff;
+            color: #000;
+            line-height: 1.4;
+        }
+
+        /* Font imports */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: transparent;
+        }
+
+        .nav-links {
+            position: relative;
+        }
+
+        .logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #000;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .burger-menu {
+            width: 20px;
+            height: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .burger-menu:hover {
+            opacity: 0.7;
+        }
+
+        .burger-line {
+            width: 100%;
+            height: 1px;
+            background: #000;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #fff;
+            padding: 100px 40px 40px 40px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        
+        .menu-close-btn {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #000;
+            padding: 10px;
+            transition: opacity 0.2s;
+        }
+        
+        .menu-close-btn:hover {
+            opacity: 0.7;
+        }
+
+        .menu-logo {
+            width: 120px;
+            height: 120px;
+            margin: 40px 0 60px 0;
+            flex-shrink: 0;
+        }
+
+        .menu-logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-link {
+            display: block;
+            color: #000;
+            text-decoration: underline;
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 20px 0;
+            transition: opacity 0.2s;
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        .dropdown-link:hover {
+            opacity: 0.7;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .icon:hover {
+            opacity: 0.7;
+        }
+
+        .icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 40px 60px;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-weight: 300;
+        }
+
+        /* Favorites Grid */
+        .favorites-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .favorite-card {
+            background: #fff;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid transparent;
+            position: relative;
+        }
+
+        .favorite-card:hover {
+            border-color: #000;
+            transform: translateY(-2px);
+        }
+
+        .favorite-image {
+            width: 100%;
+            height: 400px;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .favorite-number {
+            font-size: 60px;
+            font-weight: 100;
+            color: white;
+        }
+
+        .favorite-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #000;
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .favorite-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .favorite-card:hover .favorite-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .action-btn:hover {
+            background: #fff;
+        }
+
+        .remove-favorite {
+            background: #ff4444;
+            color: #fff;
+        }
+
+        .remove-favorite:hover {
+            background: #ff6666;
+        }
+
+        .favorite-info {
+            padding: 20px;
+        }
+
+        .favorite-name {
+            font-size: 14px;
+            font-weight: 300;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+        }
+
+        .favorite-category {
+            font-size: 12px;
+            color: #666;
+            font-weight: 300;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .favorite-price {
+            font-size: 18px;
+            color: #000;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+
+        .favorite-sizes {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .size-btn {
+            padding: 6px 10px;
+            border: 1px solid #e0e0e0;
+            background: #fff;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .size-btn:hover {
+            border-color: #000;
+        }
+
+        .size-btn.selected {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+        }
+
+        .favorite-colors {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .color-btn {
+            padding: 6px 10px;
+            border: 1px solid #e0e0e0;
+            background: #fff;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .color-btn:hover {
+            border-color: #000;
+        }
+
+        .color-btn.selected {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 12px;
+            background: #000;
+            color: #fff;
+            border: none;
+            font-size: 14px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .add-to-cart:hover {
+            background: #333;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+            color: #000;
+        }
+
+        .empty-title {
+            font-size: 24px;
+            font-weight: 300;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .empty-description {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .browse-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #000;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.2s;
+        }
+
+        .browse-btn:hover {
+            background: #333;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .favorites-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .favorites-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 80px 20px 40px;
+            }
+
+            .favorites-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+            <!-- Header -->
+    <header class="header">
+        <div class="nav-links">
+            <div class="burger-menu" id="burgerMenu">
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <button class="menu-close-btn" onclick="closeMenu()">←</button>
+                <div class="menu-logo">
+                    <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 400 400">
+                        <defs>
+                            <style>
+                                .st0 {
+                                    fill: none;
+                                    stroke: #231f20;
+                                    stroke-miterlimit: 10;
+                                    stroke-width: 11px;
+                                }
+                            </style>
+                        </defs>
+                        <polygon class="st0" points="377.37 382.49 21.01 253.6 21.05 150.75 377.37 22.22 377.37 382.49"/>
+                        <polygon class="st0" points="219.63 382.49 20.86 277.13 20.89 126.59 219.63 21.79 219.63 382.49"/>
+                        <polygon class="st0" points="99.83 382.25 20.86 316.99 20.86 87.02 99.83 22.46 99.83 382.25"/>
+                    </svg>
+                </div>
+                <a href="index.html" class="dropdown-link">Главная</a>
+                <a href="about.html" class="dropdown-link">О нас</a>
+                <a href="catalog.html" class="dropdown-link">Каталог</a>
+                <a href="help.html" class="dropdown-link">Помощь</a>
+                <a href="favorites.html" class="dropdown-link">Избранное</a>
+                <a href="orders.html" class="dropdown-link">Мои заказы</a>
+            </div>
+        </div>
+        <div class="logo">
+            <a href="index.html" style="color: inherit; text-decoration: none;">Центр кино™</a>
+        </div>
+        <div class="header-right">
+                            <div class="header-icons">
+                    <div class="icon" onclick="window.location.href='catalog.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M14 14L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='favorites.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M10 17.5L8.5 16.1C4.5 12.3 2 9.7 2 6.5C2 3.9 4.1 1.8 6.7 1.8C7.8 1.8 8.9 2.2 9.7 3C10.5 2.2 11.6 1.8 12.7 1.8C15.3 1.8 17.4 3.9 17.4 6.5C17.4 9.7 14.9 12.3 10.9 16.1L10 17.5Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='cart.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <rect x="3" y="4" width="14" height="12" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <path d="M3 4L5 1H15L17 4" stroke="currentColor" stroke-width="1.5"/>
+                            <circle cx="7" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <circle cx="13" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='account.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="6" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <path d="M3 17C3 13.1 6.1 10 10 10C13.9 10 17 13.1 17 17" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Избранное</h1>
+            <p class="page-subtitle" id="favoritesCount">0 товаров</p>
+        </div>
+
+        <div class="favorites-container" id="favoritesContainer">
+            <!-- Favorites will be generated here -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+                            <div class="empty-icon">♡</div>
+            <h2 class="empty-title">Избранное пусто</h2>
+            <p class="empty-description">Добавляйте товары в избранное, чтобы быстро находить их позже</p>
+            <a href="catalog.html" class="browse-btn">Перейти в каталог</a>
+        </div>
+    </div>
+
+    <script>
+        // Favorites functionality
+        class Favorites {
+            constructor() {
+                this.items = JSON.parse(localStorage.getItem('favorites')) || [];
+                this.init();
+            }
+
+            init() {
+                this.renderFavorites();
+                this.setupEventListeners();
+            }
+
+            addItem(product) {
+                const existingItem = this.items.find(item => item.id === product.id);
+                
+                if (!existingItem) {
+                    this.items.push({
+                        id: product.id,
+                        name: product.name,
+                        category: product.category,
+                        price: product.price,
+                        sizes: product.sizes
+                    });
+                    this.saveFavorites();
+                    this.renderFavorites();
+                }
+            }
+
+            removeItem(productId) {
+                this.items = this.items.filter(item => item.id !== productId);
+                this.saveFavorites();
+                this.renderFavorites();
+            }
+
+            saveFavorites() {
+                localStorage.setItem('favorites', JSON.stringify(this.items));
+            }
+
+            // Получение данных товара из localStorage
+            getProductData(productId) {
+                // Сначала ищем в админ панели (ключи product_${id})
+                const productData = localStorage.getItem(`product_${productId}`);
+                if (productData) {
+                    try {
+                        const product = JSON.parse(productData);
+                        return product;
+                    } catch (error) {
+                        console.error('Ошибка при загрузке товара из админ панели:', error);
+                    }
+                }
+                
+                // Если не найден в админ панели, ищем в старых данных
+                const oldProducts = JSON.parse(localStorage.getItem('products') || '[]');
+                const product = oldProducts.find(p => p.id === parseInt(productId));
+                
+                if (product) {
+                    return product;
+                }
+                
+                // Возвращаем дефолтные данные, если товар не найден
+                return {
+                    id: parseInt(productId),
+                    name: 'Товар не найден',
+                    category: 'Неизвестно',
+                    price: 0,
+                    images: []
+                };
+            }
+
+            renderFavorites() {
+                const container = document.getElementById('favoritesContainer');
+                const emptyState = document.getElementById('emptyState');
+                const countElement = document.getElementById('favoritesCount');
+
+                if (this.items.length === 0) {
+                    container.style.display = 'none';
+                    emptyState.style.display = 'block';
+                    countElement.textContent = '0 товаров';
+                } else {
+                    container.style.display = 'grid';
+                    emptyState.style.display = 'none';
+                    countElement.textContent = `${this.items.length} товаров`;
+
+                    container.innerHTML = '';
+                    this.items.forEach(item => {
+                        const favoriteCard = this.createFavoriteCard(item);
+                        container.appendChild(favoriteCard);
+                    });
+                }
+            }
+
+            createFavoriteCard(item) {
+                // Получаем полные данные товара для отображения изображения
+                const productData = this.getProductData(item.id);
+                const productImage = productData.images && productData.images.length > 0 ? productData.images[0] : null;
+                
+                const card = document.createElement('div');
+                card.className = 'favorite-card';
+                card.innerHTML = `
+                    <div class="favorite-image">
+                        ${productImage ? 
+                            `<img src="${productImage}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">` :
+                            `<div class="favorite-number">${item.id}</div>`
+                        }
+                        <div class="favorite-actions">
+                            <button class="action-btn remove-favorite" onclick="favorites.removeItem(${item.id})">×</button>
+                        </div>
+                    </div>
+                    <div class="favorite-info">
+                        <h3 class="favorite-name">${item.name}</h3>
+                        <p class="favorite-category">${this.getCategoryName(item.category)}</p>
+                        <p class="favorite-price">${item.price.toLocaleString()} ₽</p>
+                        <div class="favorite-sizes">
+                            <button class="size-btn selected">ONESIZE</button>
+                        </div>
+                        <div class="favorite-colors">
+                            <button class="color-btn selected">Черный</button>
+                        </div>
+                        <button class="add-to-cart">Добавить в корзину</button>
+                    </div>
+                `;
+
+                // Add event listeners
+                const sizeBtns = card.querySelectorAll('.size-btn');
+                sizeBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        sizeBtns.forEach(b => b.classList.remove('selected'));
+                        this.classList.add('selected');
+                    });
+                });
+
+                const colorBtns = card.querySelectorAll('.color-btn');
+                colorBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        colorBtns.forEach(b => b.classList.remove('selected'));
+                        this.classList.add('selected');
+                    });
+                });
+
+                const addToCartBtn = card.querySelector('.add-to-cart');
+                addToCartBtn.addEventListener('click', function() {
+                    // Check if size and color are selected
+                    const selectedSize = card.querySelector('.size-btn.selected');
+                    const selectedColor = card.querySelector('.color-btn.selected');
+                    
+                    if (!selectedSize || !selectedColor) {
+                        // Redirect to product page for selection
+                        window.location.href = `product.html?id=${item.id}`;
+                        return;
+                    }
+                    
+                    // Add to cart functionality
+                    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                    const existingItem = cart.find(cartItem => cartItem.id === item.id);
+                    
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cart.push({
+                            id: item.id,
+                            name: item.name,
+                            category: item.category,
+                            price: item.price,
+                            size: selectedSize.textContent,
+                            color: selectedColor.textContent,
+                            quantity: 1
+                        });
+                    }
+                    
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    
+                    // Redirect to cart page
+                    window.location.href = 'cart.html';
+                });
+
+                return card;
+            }
+
+            getCategoryName(category) {
+                const categories = {
+                    'jackets': 'Куртки',
+                    'shirts': 'Футболки',
+                    'pants': 'Брюки',
+                    'shoes': 'Обувь',
+                    'accessories': 'Аксессуары'
+                };
+                return categories[category] || category;
+            }
+
+            setupEventListeners() {
+                // Burger menu functionality
+                const burgerMenu = document.getElementById('burgerMenu');
+                const dropdownMenu = document.getElementById('dropdownMenu');
+
+                burgerMenu.addEventListener('click', function() {
+                    dropdownMenu.classList.toggle('active');
+                });
+
+                // Close menu function
+                window.closeMenu = function() {
+                    dropdownMenu.classList.remove('active');
+                };
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!burgerMenu.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                        dropdownMenu.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        // Initialize favorites
+        const favorites = new Favorites();
+
+        // Global function to add to favorites (can be called from other pages)
+        window.addToFavorites = function(product) {
+            favorites.addItem(product);
+        };
+    </script>
+    <script src="statistics.js"></script>
+</body>
+</html> 

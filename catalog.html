@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicoin/fovicoin.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="favicoin/fovicoin.svg">
+    <title>Центр кино™ - Каталог</title>
+    <!-- Подключить в <head> ПЕРЕД нашими скриптами на всех страницах: admin.html, catalog.html, product.html -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      // ВСТАВЬ СЮДА свои значения:
+      const SUPABASE_URL  = "https://YOUR_PROJECT_ID.supabase.co";
+      const SUPABASE_ANON = "YOUR_PUBLIC_ANON_KEY";
+
+      window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Local IBM Plex Mono font faces */
+        @font-face { font-family: 'IBM Plex Mono'; src: url('шрифт/IBMPlexMono-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; font-display: swap; }
+
+        /* Force IBM Plex Mono everywhere */
+        html, body, input, button, select, textarea, a, span, div, p, h1, h2, h3, h4, h5, h6 {
+            font-family: 'IBM Plex Mono', monospace !important;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: #fff;
+            color: #000;
+            line-height: 1.4;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: transparent;
+        }
+
+        .nav-links {
+            position: relative;
+        }
+
+        .logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+        }
+
+        .burger-menu {
+            width: 20px;
+            height: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .burger-menu:hover {
+            opacity: 0.7;
+        }
+
+        .burger-line {
+            width: 100%;
+            height: 1px;
+            background: #fff;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #fff;
+            padding: 100px 40px 40px 40px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        
+        .menu-close-btn {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #000;
+            padding: 10px;
+            transition: opacity 0.2s;
+        }
+        
+        .menu-close-btn:hover {
+            opacity: 0.7;
+        }
+
+        .menu-logo {
+            width: 120px;
+            height: 120px;
+            margin: 40px 0 60px 0;
+            flex-shrink: 0;
+        }
+
+        .menu-logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-link {
+            display: block;
+            color: #000;
+            text-decoration: underline;
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 20px 0;
+            transition: opacity 0.2s;
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        .dropdown-link:hover {
+            opacity: 0.7;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .icon:hover {
+            opacity: 0.7;
+        }
+
+        .icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -100px; /* Заходит под header */
+        }
+
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-placeholder {
+            font-size: 60px;
+            font-weight: 100;
+            color: white;
+        }
+
+        .hero-text {
+            position: absolute;
+            left: 60px;
+            bottom: 60px;
+            z-index: 10;
+            color: #fff;
+            max-width: 500px;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            line-height: 1.2;
+            color: #fff;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #fff;
+            margin-bottom: 40px;
+        }
+
+        .hero-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .back-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 0.7;
+        }
+
+        .season-text {
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .catalog-content {
+            padding: 40px;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-weight: 300;
+        }
+
+        /* Filters and Sort */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .filters {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            background: #fff;
+            font-size: 14px;
+            font-weight: 300;
+            cursor: pointer;
+        }
+
+        .sort-controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .view-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #e0e0e0;
+            background: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .view-btn.active {
+            background: #000;
+            color: #fff;
+        }
+
+        .view-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .view-btn.active:hover {
+            background: #333;
+        }
+
+        /* Products Grid */
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .product-card {
+            background: #fff;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid transparent;
+            position: relative;
+        }
+
+        .product-card:hover {
+            border-color: #000;
+            transform: translateY(-2px);
+        }
+
+                 .product-image {
+             width: 100%;
+             height: 500px;
+             background: #444;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             position: relative;
+             overflow: hidden;
+         }
+
+                 .product-number {
+             font-size: 80px;
+             font-weight: 100;
+             color: white;
+         }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #000;
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #f44336;
+            color: #fff;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 10;
+        }
+
+        .product-price {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .discounted-price {
+            color: #f44336;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .product-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .product-card:hover .product-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: transform 0.2s;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+}
+
+        .favorite-btn.active {
+            color: white;
+        }
+
+        .product-price-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 300;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        .product-card:hover .product-price-overlay {
+            opacity: 1;
+        }
+
+                 .product-info {
+             padding: 30px;
+         }
+
+                 .product-name {
+             font-size: 14px;
+             font-weight: 300;
+             margin-bottom: 8px;
+             letter-spacing: 0.5px;
+             line-height: 1.4;
+             text-transform: uppercase;
+         }
+
+         .product-description {
+             font-size: 12px;
+             color: #666;
+             font-weight: 300;
+             line-height: 1.4;
+         }
+
+         .product-details {
+             margin-top: 15px;
+             padding-top: 15px;
+             border-top: 1px solid #f0f0f0;
+         }
+
+         .product-price {
+             font-size: 16px;
+             font-weight: 400;
+             color: #000;
+             margin-bottom: 8px;
+         }
+
+                   .product-sizes, .product-colors, .product-material, .product-season, .product-care {
+              font-size: 11px;
+              color: #666;
+              font-weight: 300;
+              line-height: 1.4;
+              margin-bottom: 4px;
+          }
+
+          .product-sizes strong, .product-colors strong, .product-material strong, .product-season strong, .product-care strong {
+              color: #000;
+              font-weight: 400;
+          }
+
+        
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 60px;
+        }
+
+        .page-btn {
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            transition: all 0.2s;
+        }
+
+        .page-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .page-btn.active {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+        }
+
+
+
+        /* Social Links Section */
+        .social-section {
+            padding: 80px 40px;
+            background: #fff;
+            margin-top: 40px;
+        }
+
+        .social-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+
+        .social-card {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .social-card:hover {
+            transform: scale(1.02);
+        }
+
+        .social-image {
+            width: 100%;
+            height: 100%;
+            background: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .social-image .image-placeholder {
+            font-size: 60px;
+            font-weight: 100;
+            color: white;
+        }
+
+        .social-overlay {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            color: #000;
+            z-index: 10;
+        }
+
+        .social-title {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .social-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #fff;
+            padding-bottom: 2px;
+            transition: opacity 0.2s;
+        }
+
+        .social-link:hover {
+            opacity: 0.7;
+        }
+
+        /* Footer */
+        .footer {
+            background: #fff;
+            padding: 60px 40px;
+            color: #000;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .footer-brand {
+            flex: 0 0 400px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .footer-logo-svg {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+        }
+
+        .footer-logo-svg svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .footer-brand-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .footer-copyright {
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .footer-logo {
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .footer-copyright {
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        .footer-corporate {
+            color: #000;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #000;
+            padding-bottom: 2px;
+            transition: opacity 0.2s;
+        }
+
+        .footer-corporate:hover {
+            opacity: 0.7;
+        }
+
+        .footer-columns {
+            display: flex;
+            gap: 40px;
+            margin-left: -100px;
+        }
+
+        .footer-column h3 {
+            font-size: 12px;
+            margin-bottom: 15px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #000;
+        }
+
+        .footer-column a {
+            display: block;
+            color: #000;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            transition: color 0.2s;
+        }
+
+        .footer-column a:hover {
+            color: #000;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .products-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .products-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+
+            .filters {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .products-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+        <!-- Header -->
+    <header class="header">
+        <div class="nav-links">
+            <div class="burger-menu" id="burgerMenu">
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <button class="menu-close-btn" onclick="closeMenu()">←</button>
+                <div class="menu-logo">
+                    <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 400 400">
+                        <defs>
+                            <style>
+                                .st0 {
+                                    fill: none;
+                                    stroke: #231f20;
+                                    stroke-miterlimit: 10;
+                                    stroke-width: 11px;
+                                }
+                            </style>
+                        </defs>
+                        <polygon class="st0" points="377.37 382.49 21.01 253.6 21.05 150.75 377.37 22.22 377.37 382.49"/>
+                        <polygon class="st0" points="219.63 382.49 20.86 277.13 20.89 126.59 219.63 21.79 219.63 382.49"/>
+                        <polygon class="st0" points="99.83 382.25 20.86 316.99 20.86 87.02 99.83 22.46 99.83 382.25"/>
+                    </svg>
+                </div>
+                <a href="index.html" class="dropdown-link">Главная</a>
+                <a href="about.html" class="dropdown-link">О нас</a>
+                <a href="help.html" class="dropdown-link">Помощь</a>
+                <a href="favorites.html" class="dropdown-link">Избранное</a>
+                <a href="orders.html" class="dropdown-link">Мои заказы</a>
+            </div>
+        </div>
+                 <div class="logo">
+             <a href="index.html" style="color: inherit; text-decoration: none;">Центр кино™</a>
+         </div>
+        <div class="header-right">
+                            <div class="header-icons">
+                    <div class="icon" onclick="window.location.href='catalog.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M14 14L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='favorites.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M10 17.5L8.5 16.1C4.5 12.3 2 9.7 2 6.5C2 3.9 4.1 1.8 6.7 1.8C7.8 1.8 8.9 2.2 9.7 3C10.5 2.2 11.6 1.8 12.7 1.8C15.3 1.8 17.4 3.9 17.4 6.5C17.4 9.7 14.9 12.3 10.9 16.1L10 17.5Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='cart.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <rect x="3" y="4" width="14" height="12" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <path d="M3 4L5 1H15L17 4" stroke="currentColor" stroke-width="1.5"/>
+                            <circle cx="7" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <circle cx="13" cy="17" r="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="icon" onclick="window.location.href='account.html'">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="6" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <path d="M3 17C3 13.1 6.1 10 10 10C13.9 10 17 13.1 17 17" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-image" id="catalog-hero-image">
+            <div class="image-placeholder">19</div>
+        </div>
+        <div class="hero-text">
+            <h1 class="hero-title" id="catalog-hero-title">ВЕРХНЯЯ ОДЕЖДА</h1>
+            <p class="hero-description" id="catalog-hero-description">
+                Коллекция верхней одежды включает в себя культовые модели, такие как пальто и куртки, материалы и техники окрашивания. В их основе – многолетняя преданность дизайну и инновациям.
+            </p>
+                         <div class="hero-navigation">
+                                  <a href="index.html" class="back-link">‹ НАЗАД</a>
+             </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Catalog Content -->
+        <div class="catalog-content">
+                         <!-- Page Header -->
+                          <div class="page-header">
+                  <h1 class="page-title">Каталог товаров</h1>
+                  <p class="page-subtitle" id="productCount">0 товаров</p>
+                  
+
+              </div>
+
+            <!-- Filters and Sort -->
+            <div class="controls">
+            <div class="filters">
+                <div class="filter-group">
+                    <label class="filter-label">Категория:</label>
+                                         <select class="filter-select" id="categoryFilter">
+                         <option value="">Все категории</option>
+                         <option value="мужская">Мужская одежда</option>
+                         <option value="женская">Женская одежда</option>
+                         <option value="настольные игры">Настольные игры</option>
+                         <option value="аксессуары">Аксессуары</option>
+                     </select>
+                </div>
+            </div>
+            <div class="sort-controls">
+                <div class="filter-group">
+                    <label class="filter-label">Сортировка:</label>
+                    <select class="filter-select" id="sortSelect">
+                        <option value="newest">Сначала новые</option>
+                        <option value="price-low">Цена: по возрастанию</option>
+                        <option value="price-high">Цена: по убыванию</option>
+                        <option value="name">По названию</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-container" id="productsContainer">
+            <!-- Products will be generated by JavaScript -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <a href="#" class="page-btn active">1</a>
+            <a href="#" class="page-btn">2</a>
+            <a href="#" class="page-btn">3</a>
+            <a href="#" class="page-btn">4</a>
+            <a href="#" class="page-btn">5</a>
+        </div>
+        </div>
+    </div>
+
+
+
+    <!-- Social Links Section -->
+    <section class="social-section">
+        <div class="social-grid">
+            <div class="social-card">
+                <div class="social-image">
+                    <div class="image-placeholder">36</div>
+                </div>
+                <div class="social-overlay">
+                    <h3 class="social-title">TELEGRAM</h3>
+                    <a href="#" class="social-link">ПОДРОБНЕЕ</a>
+                </div>
+            </div>
+            <div class="social-card">
+                <div class="social-image">
+                    <div class="image-placeholder">37</div>
+                </div>
+                <div class="social-overlay">
+                    <h3 class="social-title">VK MARKET</h3>
+                    <a href="#" class="social-link">ПОДРОБНЕЕ</a>
+                </div>
+            </div>
+            <div class="social-card">
+                <div class="social-image">
+                    <div class="image-placeholder">38</div>
+                </div>
+                <div class="social-overlay">
+                    <h3 class="social-title">КИНОШЁП</h3>
+                    <a href="#" class="social-link">ПОДРОБНЕЕ</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo-svg">
+                    <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 400 400">
+                        <defs>
+                            <style>
+                                .st0 {
+                                    fill: none;
+                                    stroke: #231f20;
+                                    stroke-miterlimit: 10;
+                                    stroke-width: 11px;
+                                }
+                            </style>
+                        </defs>
+                        <polygon class="st0" points="377.37 382.49 21.01 253.6 21.05 150.75 377.37 22.22 377.37 382.49"/>
+                        <polygon class="st0" points="219.63 382.49 20.86 277.13 20.89 126.59 219.63 21.79 219.63 382.49"/>
+                        <polygon class="st0" points="99.83 382.25 20.86 316.99 20.86 87.02 99.83 22.46 99.83 382.25"/>
+                    </svg>
+                </div>
+                <div class="footer-brand-text">
+                    <div class="footer-copyright">Центр кино™ © 2025, ООО "Центр Кино". Все права защищены.</div>
+                </div>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <a href="privacy-policy.html">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a>
+                </div>
+                <div class="footer-column">
+                </div>
+                <div class="footer-column">
+                    <a href="return-policy.html">ПОЛИТИКА ВОЗВРАТА И ОБМЕНА</a>
+                </div>
+                <div class="footer-column">
+                    <a href="terms-of-sale.html">ПОЛОЖЕНИЯ И УСЛОВИЯ ПРОДАЖИ</a>
+                </div>
+                <div class="footer-column">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+                 // Product data - загружаем из localStorage или используем дефолтные
+         let products = [];
+         
+         // Функция загрузки товаров из localStorage
+         function loadProductsFromStorage() {
+             // Загружаем товары из админ панели (ключи product_${id})
+             const productIds = JSON.parse(localStorage.getItem('productIds') || '[]');
+             const loadedProducts = [];
+             
+             productIds.forEach(id => {
+                 const productData = localStorage.getItem(`product_${id}`);
+                 if (productData) {
+                     try {
+                         const product = JSON.parse(productData);
+                         loadedProducts.push(product);
+                     } catch (error) {
+                         console.error(`Ошибка при загрузке товара ${id}:`, error);
+                     }
+                 }
+             });
+             
+             console.log('Загружено товаров из админ панели:', loadedProducts.length);
+             products = loadedProducts;
+         }
+         
+         
+         
+         // Загружаем товары при инициализации
+         loadProductsFromStorage();
+
+        
+
+        let filteredProducts = [...products];
+        let currentView = 'grid';
+        let currentPage = 1;
+        const productsPerPage = 8;
+
+                                   // Initialize page
+          document.addEventListener('DOMContentLoaded', function() {
+              renderProducts();
+              setupEventListeners();
+              
+              // Burger menu functionality
+              const burgerMenu = document.getElementById('burgerMenu');
+              const dropdownMenu = document.getElementById('dropdownMenu');
+
+              burgerMenu.onclick = function() {
+                  dropdownMenu.classList.toggle('active');
+              };
+
+              // Close menu function
+              window.closeMenu = function() {
+                  dropdownMenu.classList.remove('active');
+              };
+
+              // Close dropdown when clicking outside
+              document.addEventListener('click', function(event) {
+                  if (!burgerMenu.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                      dropdownMenu.classList.remove('active');
+                  }
+              });
+              
+                             // Загружаем данные каталога из localStorage (как в Banner 4)
+               const content = JSON.parse(localStorage.getItem('pageContent') || '{}');
+               const catalogContent = content.catalog || {};
+               
+               console.log('🔍 Проверяем localStorage pageContent:', content);
+               console.log('🔍 Данные каталога:', catalogContent);
+               
+               // Проверяем данные hero секции (как в Banner 4)
+               if (catalogContent.hero) {
+                   console.log('✅ Загружаем данные каталога hero из localStorage:', catalogContent.hero);
+                   updateCatalog(catalogContent.hero);
+                   
+                   // Принудительно обновляем изображения
+                   console.log('🔄 Принудительное обновление изображений каталога...');
+                   setTimeout(() => {
+                       updateCatalog(catalogContent.hero);
+                       console.log('✅ Изображения каталога обновлены');
+                   }, 100);
+               } else {
+                   console.log('❌ Данные каталога hero не найдены в localStorage');
+               }
+               
+               // Загружаем переходы
+               updateTransitions();
+              
+                             // Автоматическое обновление товаров и данных каталога каждые 5 секунд
+               setInterval(function() {
+                   // Проверяем изменения в товарах админ панели
+                   const productIds = JSON.parse(localStorage.getItem('productIds') || '[]');
+                   if (productIds.length !== products.length) {
+                       console.log('Обнаружены изменения в товарах админ панели, обновляем каталог...');
+                       loadProductsFromStorage();
+                       filteredProducts = [...products];
+                       renderProducts();
+                   }
+                   
+                   // Проверяем обновления данных каталога
+                   const content = JSON.parse(localStorage.getItem('pageContent') || '{}');
+                   const catalogContent = content.catalog || {};
+                   if (catalogContent.hero) {
+                       console.log('🔄 Обновляем данные каталога из localStorage:', catalogContent.hero);
+                       updateCatalog(catalogContent.hero);
+                   }
+                   
+                   // Обновляем переходы
+                   updateTransitions();
+               }, 5000);
+          });
+
+        // Add to favorites function
+        function addToFavorites(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+                const existingItem = favorites.find(item => item.id === productId);
+                const favoriteBtn = event.target;
+                
+                if (!existingItem) {
+                    // Add to favorites
+                    favorites.push({
+                        id: product.id,
+                        name: product.name,
+                        category: product.category,
+                        price: product.price,
+                        sizes: product.sizes
+                    });
+                    localStorage.setItem('favorites', JSON.stringify(favorites));
+                    favoriteBtn.classList.add('active');
+                    favoriteBtn.textContent = '♡';
+                } else {
+                    // Remove from favorites
+                    const updatedFavorites = favorites.filter(item => item.id !== productId);
+                    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+                    favoriteBtn.classList.remove('active');
+                    favoriteBtn.textContent = '♡';
+                }
+            }
+        }
+
+                 // Render products
+         function renderProducts() {
+             const container = document.getElementById('productsContainer');
+             const productCountElement = document.getElementById('productCount');
+             
+             container.innerHTML = '';
+             
+             // Обновляем количество товаров
+             productCountElement.textContent = `${filteredProducts.length} товаров`;
+
+             const startIndex = (currentPage - 1) * productsPerPage;
+             const endIndex = startIndex + productsPerPage;
+             const productsToShow = filteredProducts.slice(startIndex, endIndex);
+
+             productsToShow.forEach(product => {
+                 const productCard = createProductCard(product);
+                 container.appendChild(productCard);
+             });
+
+             updatePagination();
+         }
+
+                 // Create product card
+         function createProductCard(product) {
+             const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+             const isInFavorites = favorites.find(item => item.id === product.id);
+             
+             // Проверяем скидки для товара
+             const discounts = JSON.parse(localStorage.getItem('discounts') || '[]');
+             const activeDiscount = discounts.find(discount => 
+                 discount.productId === product.id.toString() && 
+                 new Date(discount.startDate) <= new Date() && 
+                 new Date(discount.endDate) >= new Date()
+             );
+             
+             let finalPrice = product.price || 0;
+             let originalPrice = product.price || 0;
+             let discountBadge = '';
+             
+             if (activeDiscount) {
+                 if (activeDiscount.type === 'percentage') {
+                     finalPrice = Math.round(originalPrice * (1 - activeDiscount.value / 100));
+                 } else {
+                     finalPrice = Math.max(0, originalPrice - activeDiscount.value);
+                 }
+                 discountBadge = '<div class="discount-badge">СКИДКА</div>';
+             }
+             
+             const card = document.createElement('div');
+             card.className = 'product-card';
+             card.innerHTML = `
+                 <div class="product-image" onclick="window.location.href='product.html?id=${product.id}'">
+                     ${product.images && product.images.length > 0 && product.images[0] && product.images[0].trim() !== '' ? 
+                         `<img src="${product.images[0].trim()}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover; display: block;">` : 
+                         ``
+                     }
+                     ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
+                     ${discountBadge}
+                     <div class="product-price-overlay">
+                         ${activeDiscount ? 
+                             `<div class="product-price">
+                                 <span class="original-price">${originalPrice.toLocaleString()} ₽</span>
+                                 <span class="discounted-price">${finalPrice.toLocaleString()} ₽</span>
+                             </div>` : 
+                             `${finalPrice.toLocaleString()} ₽`
+                         }
+                     </div>
+                     <div class="product-actions">
+                         <button class="action-btn favorite-btn ${isInFavorites ? 'active' : ''}" onclick="event.stopPropagation(); addToFavorites(${product.id})">♡</button>
+                         <button class="action-btn" onclick="event.stopPropagation(); window.location.href='product.html?id=${product.id}'">↗</button>
+                     </div>
+                 </div>
+                 <div class="product-info" onclick="window.location.href='product.html?id=${product.id}'">
+                     <h3 class="product-name">${product.name || 'Без названия'}</h3>
+                     <p class="product-description">${product.description || 'Описание отсутствует'}</p>
+                     <div class="product-details">
+                         ${activeDiscount ? 
+                             `<div class="product-price">
+                                 <span class="original-price">${originalPrice.toLocaleString()} ₽</span>
+                                 <span class="discounted-price">${finalPrice.toLocaleString()} ₽</span>
+                             </div>` : 
+                             `<p class="product-price">${finalPrice.toLocaleString()} ₽</p>`
+                         }
+                     </div>
+                 </div>
+             `;
+
+             return card;
+         }
+
+        // Get category name
+        function getCategoryName(category) {
+            const categories = {
+                'jackets': 'Куртки',
+                'shirts': 'Футболки',
+                'pants': 'Брюки',
+                'shoes': 'Обувь',
+                'accessories': 'Аксессуары'
+            };
+            return categories[category] || category;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filters
+            document.getElementById('categoryFilter').addEventListener('change', filterProducts);
+            document.getElementById('sortSelect').addEventListener('change', sortProducts);
+        }
+
+        // Filter products
+        function filterProducts() {
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            
+            filteredProducts = products.filter(product => {
+                if (!categoryFilter) return true; // Показываем все товары если фильтр не выбран
+                
+                // Проверяем основную категорию товара (строка с запятыми)
+                if (product.category) {
+                    const categories = product.category.split(',').map(cat => cat.trim());
+                    if (categories.includes(categoryFilter)) return true;
+                }
+                
+                // Проверяем массив категорий товара (если есть)
+                if (product.categories && Array.isArray(product.categories)) {
+                    if (product.categories.includes(categoryFilter)) return true;
+                }
+                
+                return false;
+            });
+
+            currentPage = 1;
+            renderProducts();
+        }
+
+        // Sort products
+        function sortProducts() {
+            const sortBy = document.getElementById('sortSelect').value;
+
+            filteredProducts.sort((a, b) => {
+                switch (sortBy) {
+                    case 'price-low':
+                        return a.price - b.price;
+                    case 'price-high':
+                        return b.price - a.price;
+                    case 'name':
+                        return a.name.localeCompare(b.name);
+                    case 'newest':
+                    default:
+                        return b.id - a.id;
+                }
+            });
+
+            renderProducts();
+        }
+
+
+
+        // Update pagination
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+            const paginationContainer = document.querySelector('.pagination');
+            
+            if (paginationContainer) {
+                paginationContainer.innerHTML = '';
+                
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageBtn = document.createElement('a');
+                    pageBtn.href = '#';
+                    pageBtn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                    pageBtn.textContent = i;
+                    pageBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        currentPage = i;
+                        renderProducts();
+                    });
+                    paginationContainer.appendChild(pageBtn);
+                }
+            }
+        }
+
+        // ФУНКЦИЯ ДЛЯ ОБНОВЛЕНИЯ КАТАЛОГА ИЗ АДМИН ПАНЕЛИ
+        function updateCatalog(catalogData) {
+            console.log('🔄 Обновляем каталог:', catalogData);
+            
+            // Обновляем заголовок
+            const titleElement = document.getElementById('catalog-hero-title');
+            if (titleElement) {
+                titleElement.textContent = catalogData.title || '';
+            }
+            
+            // Обновляем описание
+            const descriptionElement = document.getElementById('catalog-hero-description');
+            if (descriptionElement) {
+                descriptionElement.textContent = catalogData.description || '';
+            }
+            
+            // Обновляем изображение
+            const imageElement = document.getElementById('catalog-hero-image');
+            if (imageElement) {
+                imageElement.innerHTML = '';
+                if (catalogData.image) {
+                    const img = document.createElement('img');
+                    img.src = catalogData.image;
+                    img.style.width = '100%';
+                    img.style.height = '100%';
+                    img.style.objectFit = 'cover';
+                    img.style.borderRadius = '8px';
+                    imageElement.appendChild(img);
+                }
+            }
+        }
+
+        // ФУНКЦИЯ ДЛЯ ОБНОВЛЕНИЯ ПЕРЕХОДОВ
+        function updateTransitions() {
+            console.log('🔄 Обновляем переходы на странице каталога');
+            
+            // Загружаем данные из localStorage
+            const pageContent = JSON.parse(localStorage.getItem('pageContent') || '{}');
+            const transitions = pageContent.transitions || {};
+            console.log('📊 Данные переходов:', transitions);
+            
+            // Обновляем каждый блок
+            for (let i = 1; i <= 3; i++) {
+                const blockKey = `block${i}`;
+                const blockData = transitions[blockKey];
+                console.log(`🔍 ${blockKey}:`, blockData);
+                
+                if (blockData) {
+                    // Находим соответствующий блок на странице
+                    const socialCards = document.querySelectorAll('.social-card');
+                    const targetCard = socialCards[i - 1]; // i-1 потому что индексы начинаются с 0
+                    
+                    if (targetCard) {
+                        // Обновляем изображение
+                        const imageContainer = targetCard.querySelector('.social-image');
+                        if (imageContainer && blockData.image) {
+                            console.log(`✅ Обновляем изображение для ${blockKey}:`, blockData.image.substring(0, 50) + '...');
+                            imageContainer.innerHTML = `
+                                <img src="${blockData.image}" alt="${blockData.title || 'Social'}" style="width: 100%; height: 100%; object-fit: cover;">
+                            `;
+                        } else if (imageContainer) {
+                            // Восстанавливаем placeholder если нет изображения
+                            const placeholderNumber = i === 1 ? '15' : i === 2 ? '16' : '17';
+                            imageContainer.innerHTML = `
+                                <div class="image-placeholder">${placeholderNumber}</div>
+                            `;
+                        }
+                        
+                        // Обновляем заголовок
+                        const titleElement = targetCard.querySelector('.social-title');
+                        if (titleElement && blockData.title) {
+                            console.log(`✅ Обновляем заголовок для ${blockKey}:`, blockData.title);
+                            titleElement.textContent = blockData.title;
+                        }
+                        
+                        // Обновляем ссылку
+                        const linkElement = targetCard.querySelector('.social-link');
+                        if (linkElement && blockData.link) {
+                            console.log(`✅ Обновляем ссылку для ${blockKey}:`, blockData.link);
+                            linkElement.href = blockData.link;
+                            // Делаем весь блок кликабельным
+                            targetCard.onclick = function() {
+                                window.open(blockData.link, '_blank');
+                            };
+                        } else if (linkElement) {
+                            // Убираем кликабельность если нет ссылки
+                            targetCard.onclick = null;
+                        }
+                    } else {
+                        console.log(`❌ Блок ${blockKey} не найден на странице каталога`);
+                    }
+                } else {
+                    console.log(`❌ Нет данных для ${blockKey}`);
+                }
+            }
+        }
+
+
+        </script>
+
+    <!-- Cookie Consent Popup -->
+    <div id="cookieConsent" class="cookie-consent" style="display: none;">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                <h3>Использование файлов cookie</h3>
+                <p>Мы используем файлы cookie для улучшения работы сайта и предоставления персонализированного контента. Продолжая использовать сайт, вы соглашаетесь с нашей <a href="privacy-policy.html" target="_blank">Политикой конфиденциальности</a> и использованием файлов cookie.</p>
+            </div>
+            <div class="cookie-buttons">
+                <button id="acceptCookies" class="cookie-btn accept-btn">Принять</button>
+                <button id="declineCookies" class="cookie-btn decline-btn">Отклонить</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .cookie-consent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            padding: 30px 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cookie-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .cookie-text h3 {
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .cookie-text p {
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #ccc;
+            margin: 0;
+        }
+
+        .cookie-text a {
+            color: #fff;
+            text-decoration: none;
+            border-bottom: 1px solid #fff;
+            padding-bottom: 1px;
+            transition: opacity 0.2s;
+        }
+
+        .cookie-text a:hover {
+            opacity: 0.7;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 15px;
+            flex-shrink: 0;
+        }
+
+        .cookie-btn {
+            padding: 12px 24px;
+            border: 1px solid #fff;
+            background: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .accept-btn {
+            background: #fff;
+            color: #000;
+        }
+
+        .accept-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .decline-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .cookie-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .cookie-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+
+    <script>
+        // Cookie Consent Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookieConsent = document.getElementById('cookieConsent');
+            const acceptBtn = document.getElementById('acceptCookies');
+            const declineBtn = document.getElementById('declineCookies');
+            
+            // Check if user has already made a choice
+            const cookieChoice = localStorage.getItem('cookieConsent');
+            
+            if (!cookieChoice) {
+                // Show cookie consent popup after a short delay
+                setTimeout(() => {
+                    cookieConsent.style.display = 'block';
+                }, 1000);
+            }
+            
+            acceptBtn.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'accepted');
+                cookieConsent.style.display = 'none';
+            });
+            
+            declineBtn.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'declined');
+                cookieConsent.style.display = 'none';
+            });
+        });
+    </script>
+
+    <script src="js/supabase-store.js"></script>
+
+    <div id="products"></div>
+    <script>
+    const $ = id => document.getElementById(id);
+    const firstImg = (p) => (Array.isArray(p.images) && p.images[0]) ? p.images[0] : Store.PLACEHOLDER;
+
+    async function renderList() {
+      const data = await Store.listProducts();
+      const wrap = $('products');
+      wrap.innerHTML = '';
+      for (const p of data) {
+        const el = document.createElement('div');
+        el.className = 'product-card';
+        el.innerHTML = `
+          <a href="product.html?id=${p.id}">
+            <img src="${firstImg(p)}" alt="${p.name}" loading="lazy">
+            <h3>${p.name}</h3>
+            <p>${(p.price ?? 0).toLocaleString('ru-RU')} ₽</p>
+          </a>`;
+        wrap.appendChild(el);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', async () => {
+      await renderList();
+      const off = Store.subscribeProducts(async () => { await renderList(); });
+      window.addEventListener('beforeunload', off);
+    });
+    </script>
+
+    <script src="statistics.js"></script>
+    
+  </body>
+   </html> 
